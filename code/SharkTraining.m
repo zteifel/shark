@@ -164,9 +164,9 @@ classdef SharkTraining
       weights = obj.decodeChromosome(individual);
       sharktank = Aquarium(weights);
       nrOfFishEaten = sharktank.run();
-      Uncomment if testing without Aquarium
-      nrOfFishEaten = ... 
-        1-sum(abs(obj.goal-individual))/(2*obj.C.nn.weightRange*obj.C.ga.nrOfGenes);
+      % Uncomment if testing without Aquarium
+      % nrOfFishEaten = ... 
+      %   1-sum(abs(obj.goal-individual))/(2*obj.C.nn.weightRange*obj.C.ga.nrOfGenes);
     end
 
     function population = initializePopulation(obj);
