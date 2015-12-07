@@ -1,6 +1,6 @@
 #SharkTraining
 To run the Sharktraining just create an object of it
-'SharkTraining():'
+`SharkTraining():`
   Default options - Will save data to folder based on datetime
                     and use constans from code/constants.yml
 
@@ -10,7 +10,7 @@ The following options are available:
 * YamlPath - Lets you specify the yaml file (can be relative) with constants.
 
 ##Examples:
-'SharkTraining('NoSaveData','YamlPath','../my_own_consts.yml')'
+`SharkTraining('NoSaveData','YamlPath','../my_own_consts.yml')`
     Will not save data and use the constans defined in my_own_consts.yml in root fodler
-'SharkTraining('SaveFolder','testdata')'
+`SharkTraining('SaveFolder','testdata')`
     Using default constans.yml file and saves data to data/testdata folder.
