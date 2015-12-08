@@ -1,15 +1,16 @@
 classdef WalnutBrain < Brain
 
     properties 
-        turnRate = 0.3;
+        turnRate 
         speed
         prevDirection
     end
 
     methods
-        function obj = WalnutBrain()    
-            obj.prevDirection = randi(3); 
-            obj.speed = round(obj.maxspeed/4)
+        function obj = WalnutBrain(speed,turnRate)    
+            obj.turnRate = turnRate;
+            obj.prevDirection = randi(3)-2; 
+            obj.speed = speed
         end
         function [velocity, direction] = getMovement(obj,input)
             if rand < obj.turnRate
