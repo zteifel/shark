@@ -29,7 +29,7 @@ classdef SharkTraining
       if obj.save_data;
           obj.save_path = obj.savePath(folder_name);
       end
-      obj.C = importConstantsFromFile(yaml_path);
+      obj.C = obj.importConstantsFromFile(yaml_path);
       obj.fitness_fig = obj.initFitnessFigure();
   
       % Start algorithm
@@ -224,6 +224,21 @@ classdef SharkTraining
       mat_file = [obj.save_path sprintf('/weights_%d.mat',gen)];
       save(mat_file,'weights','fitness');
     end 
+
+    function constants = importConstantsFromFile(obj, yaml_path)
+      addpath('../lib/yamlmatlab'); 
+      C = ReadYaml(yaml_path);
+
+      nrOfGenes = 0;
+      for i=1:C.nn.nrOfHiddenLayers;
+        nrOfGenes = nrOfGenes + (C.nn.nrOfInputs-(i-1))*(C.nn.nrOfInputs-i);
+      end
+      nrOfGenes = nrOfGenes + ...
+          (C.nn.nrOfInputs-C.nn.nrOfHiddenLayers)*(C.nn.nrOfOutputs);
+      C.ga.nrOfGenes = nrOfGenes;
+      C.ga.mutateProb = C.ga.mutateProb*1/C.ga.nrOfGenes;
+      constants = C;
+    end
 
     function save_path = savePath(obj,folder_name)
       if exist('../data') ~= 7
