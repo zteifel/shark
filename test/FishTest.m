@@ -12,11 +12,9 @@ r3 = 10*BL*3;
 w = 30; %dead angle omega
 speed = 1.5;
 
+
 m = T/2 - 4.5;
 n = T/2 + 4.5;
-
-
-
 
 % Initialize fishes
 for i = 1:N
