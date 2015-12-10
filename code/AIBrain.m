@@ -16,9 +16,8 @@ classdef AIBrain < Brain
             for i=1:length(weights)
                 inputs = squash(weights{i}*[inputs; 1]);
             end
-            outputs = inputs;
-            velocity = floor(outputs(1)*obj.maxspeed)+1;
-            direction = floor(outputs(2)*3)-1; 
+            velocity = inputs(1);
+            direction = inputs(2);
         end
     end
 
