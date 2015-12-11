@@ -11,9 +11,10 @@ classdef FishCalculation
     properties (Constant = true)
         
         r1 = 2;
-        r2 = 15;
+        r2 = 10;
         r3 = 30;
         w = 30; %dead angle omega
+        frontOffset = 0; % KEEP AT 0!
         speed = 1.5;
         
     end
@@ -25,9 +26,11 @@ classdef FishCalculation
             obj.T = T;
         end
         
-        function updateFishes(obj,fishes)
+        function updateFishes(obj,inhabitants)
             
-            N = length(fishes);
+            
+            N = length(inhabitants)-1;
+            predatorPosition = inhabitants{1}.position;
             
             d = zeros(N,N);
             dp.x = zeros(N,N);
@@ -40,17 +43,17 @@ classdef FishCalculation
             %--------------------------------------------------------------------------
             for i = 1:N
                 for j = 1:N
-                    dp.x(i,j) = fishes{j}.position(1) - fishes{i}.position(1);
+                    dp.x(i,j) = inhabitants{j+1}.positionReal(1) - inhabitants{i+1}.positionReal(1);
                     if (dp.x(i,j) < -obj.T/2)
-                        dp.x(i,j) = fishes{j}.position(1) - (fishes{i}.position(1) - obj.T);
+                        dp.x(i,j) = inhabitants{j+1}.positionReal(1) - (inhabitants{i+1}.positionReal(1) - obj.T);
                     elseif (dp.x(i,j) > obj.T/2)
-                        dp.x(i,j) = fishes{j}.position(1) - (fishes{i}.position(1) + obj.T);
+                        dp.x(i,j) = inhabitants{j+1}.positionReal(1) - (inhabitants{i+1}.positionReal(1) + obj.T);
                     end
-                    dp.y(i,j) = fishes{j}.position(2) - fishes{i}.position(2);
+                    dp.y(i,j) = inhabitants{j+1}.positionReal(2) - inhabitants{i+1}.positionReal(2);
                     if (dp.y(i,j) < -obj.T/2)
-                        dp.y(i,j) = fishes{j}.position(2) - (fishes{i}.position(2) - obj.T);
+                        dp.y(i,j) = inhabitants{j+1}.positionReal(2) - (inhabitants{i+1}.positionReal(2) - obj.T);
                     elseif (dp.y(i,j) > obj.T/2)
-                        dp.y(i,j) = fishes{j}.position(2) - (fishes{i}.position(2) + obj.T);
+                        dp.y(i,j) = inhabitants{j+1}.positionReal(2) - (inhabitants{i+1}.positionReal(2) + obj.T);
                     end
                     dp.theta(i,j) = npi2pi(rad2deg(atan2(dp.y(i,j), dp.x(i,j))));
                     d(i,j) = sqrt( dp.x(i,j)^2 + dp.y(i,j)^2 );
@@ -62,8 +65,8 @@ classdef FishCalculation
             %--------------------------------------------------------------------------
             for i = 1:N
                 for j = 1:N
-                    thetaj = rad2deg(atan2(fishes{j}.velocity(2),fishes{j}.velocity(1)));
-                    thetai = rad2deg(atan2(fishes{i}.velocity(2),fishes{i}.velocity(1)));
+                    thetaj = rad2deg(atan2(inhabitants{j+1}.velocityReal(2),inhabitants{j+1}.velocityReal(1)));
+                    thetai = rad2deg(atan2(inhabitants{i+1}.velocityReal(2),inhabitants{i+1}.velocityReal(1)));
                     d_theta = thetaj - thetai;
                     
                     %repulsion zone (0 < d < r1)
@@ -102,16 +105,21 @@ classdef FishCalculation
                     end
                 end
                 diff_front = temp;
-                sorted = sort(diff_front);
+                sorted = sort(abs(diff_front-obj.frontOffset));
+                
                 %sorted = sort(abs(dp.theta(i,:)));
+                
+                
                 
                 index = 0;
                 min_i = 1; %index into sorted array that yields frontmost dp.theta
                 for k = 1:N-1
                     for j = 1:N
+                        
                         %remove dead zone, searching zone, and self, and limit to 4
-                        if index < 4 && j ~= i && abs(dp.theta(i,j)) < (180 - obj.w)...
-                                && d(i,j) < obj.r3 && abs(dp.theta(i,j)) == sorted(min_i)
+                        if index < 4 && j ~= i && dp.theta(i,j) < (180 - obj.w + obj.frontOffset) ...
+                                && dp.theta(i,j) > (-180 + obj.w + obj.frontOffset) ...
+                                && d(i,j) < obj.r3 && abs(abs(dp.theta(i,j)) - obj.frontOffset) == sorted(min_i)
                             index = index + 1;
                             front4(index) = j;
                             %increment min index -> index of next frontmost dp.theta
@@ -126,14 +134,15 @@ classdef FishCalculation
                 %             index = index + 1;
                 %         end
                 
-                theta_old = rad2deg(atan2(fishes{i}.velocity(2),fishes{i}.velocity(1)));
+                theta_old = rad2deg(atan2(inhabitants{i+1}.velocityReal(2),inhabitants{i+1}.velocityReal(1)));
                 if index > 0 %at least 1 neighbor visible
                     beta_avg = npi2pi(sum(beta(i,front4(1:index)))/index);
+                    
                     %add randomness (normal distribution)
                     sigma = 15; %standard deviation = 15 degrees
                     alpha = beta_avg + sigma*randn(1);
                     
-                    %calculate velocity vector
+                    %calculate velocityReal vector
                     theta_new = npi2pi(theta_old + alpha);
                     
                     
@@ -145,9 +154,9 @@ classdef FishCalculation
                     
                 end
                 
-                %velocity = gamrnd(4,1/3.3)*[cosd(theta_new) sind(theta_new)];
-                velocity = obj.speed*[cosd(theta_new) sind(theta_new)];
-                fishes{i}.updatePosition(velocity);
+                %velocityReal = gamrnd(4,1/3.3)*[cosd(theta_new) sind(theta_new)];
+                velocityReal = obj.speed*[cosd(theta_new) sind(theta_new)];
+                inhabitants{i+1}.updatePosition(velocityReal,predatorPosition);
                 
             end
             
