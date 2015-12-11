@@ -7,6 +7,8 @@ classdef Fish < handle
         tankSize;
         scareDistance = 10;
         maxSpeed = 2;
+        positionRounded;
+        velocityRounded;
         
     end
     
@@ -42,6 +44,8 @@ classdef Fish < handle
                 end
             end
             obj.position = pos;
+            obj.positionRounded(round(pos));
+            obj.velocityRounded(round(velocity));
         end
         
         function obj = predatorFlee(obj,predatorPosition)
