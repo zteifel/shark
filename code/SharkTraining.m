@@ -67,7 +67,7 @@ classdef SharkTraining
           ind2 = obj.population(i2,:);
 
           if rand < obj.C.ga.crossProb
-            [ind1, id2] = obj.cross(ind1,ind2);
+            [ind1, ind2] = obj.cross(ind1,ind2);
           end
           tempPopulation(i,:) = ind1;
           tempPopulation(i+1,:) = ind2;
@@ -166,7 +166,7 @@ classdef SharkTraining
       weights = obj.decodeChromosome(individual);
       sharktank = ...
         Aquarium(obj.C.shark,obj.C.tank,obj.C.fish,weights,obj.C.nn.beta);
-      fitness = sharktank.run();
+      fitness = sharktank.run(0);
       % Uncomment if testing without Aquarium
       % nrOfFishEaten = ...
       %  1-sum(abs(obj.goal-individual))/ ...

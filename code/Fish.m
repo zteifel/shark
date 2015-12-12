@@ -5,10 +5,11 @@ classdef Fish < handle
         position;
         velocity;
         tankSize;
-        scareDistance = 10;
-        maxSpeed = 2;
+        scareDistance = 5;
+        maxSpeed = 3;
         positionReal;
         velocityReal;
+        alive = 1;
         
     end
     
@@ -74,10 +75,10 @@ classdef Fish < handle
             if (norm([predatorDistanceX predatorDistanceY]) < obj.scareDistance)
                 
                 obj.velocityReal(1) = obj.velocityReal(1) - ...
-                    (predatorPosition(1) - obj.positionReal(1))/4;
+                    (predatorPosition(1) - obj.positionReal(1))/3;
                 
                 obj.velocity(2) = obj.velocity(2) - ...
-                    (predatorPosition(2) - obj.positionReal(2))/4;
+                    (predatorPosition(2) - obj.positionReal(2))/3;
                 
             end
         end

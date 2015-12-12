@@ -15,7 +15,7 @@ classdef FishCalculation
         r3 = 30;
         w = 30; %dead angle omega
         frontOffset = 0; % KEEP AT 0!
-        speed = 1.5;
+        speed = 2;
         
     end
     
