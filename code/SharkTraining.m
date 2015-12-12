@@ -67,7 +67,7 @@ classdef SharkTraining
           ind2 = obj.population(i2,:);
 
           if rand < obj.C.ga.crossProb
-            [ind1, id2] = obj.cross(ind1,ind2);
+            [ind1, ind2] = obj.cross(ind1,ind2);
           end
           tempPopulation(i,:) = ind1;
           tempPopulation(i+1,:) = ind2;
