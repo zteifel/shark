@@ -37,11 +37,12 @@ classdef Shark < Animal
         end 
     end
 
-    function updatePosition(obj, fish)
+    function fishIndividuals = updatePosition(obj, fishIndividuals)
       tank = zeros(obj.tankSize);
-      for i=1:length(fish)
-        tank(fish.position(1),fish.position(2)) = i; 
+      for i=1:length(fishIndividuals)
+        tank(fishIndividuals(i).position(1),fishIndividuals(i).position(2)) = i; 
       end
+
       bigTank = [tank' tank' tank';tank' tank' tank';tank' tank' tank'];
       bigTank = bigTank > 1;
 
@@ -80,6 +81,8 @@ classdef Shark < Animal
       obj.direction = newDir;
 
       if tank(obj.position(1), obj.position(2)) > 1
+        iFish = tank(obj.position(1), obj.position(2));
+        fishIndividuals(iFish) = []; 
         obj.fishEaten = obj.fishEaten + 1;
       end 
       obj.energy = obj.energy + normSpeed;
