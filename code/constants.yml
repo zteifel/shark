@@ -20,7 +20,7 @@ tank:
     nrOfFish: 36
 
 shark:
-    maxSpeed: 4
+    maxSpeed: 5
     maxEnergy: 150
     fishEatGoal: 5
     moveAngle: 0.25 # (times pi)
