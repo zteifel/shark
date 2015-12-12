@@ -9,7 +9,6 @@ classdef Fish < handle
         maxSpeed = 3;
         positionReal;
         velocityReal;
-        alive = 1;
         
     end
     

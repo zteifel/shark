@@ -26,6 +26,7 @@ classdef FishShoal
         function obj = FishShoal(tankSize, shoalSize, maxSpeed)
             obj.T = tankSize;
             
+            
             m = tankSize/2 - 4.5;
             n = tankSize/2 + 4.5;
             for i = 1:shoalSize
