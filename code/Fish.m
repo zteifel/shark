@@ -5,7 +5,7 @@ classdef Fish < handle
         position;
         velocity;
         tankSize;
-        scareDistance = 5;
+        scareDistance = 8;
         maxSpeed = 3;
         positionReal;
         velocityReal;
@@ -17,6 +17,12 @@ classdef Fish < handle
         function obj = Fish(position,velocity,tankSize,maxSpeed)
             if (nargin > 0)
                 obj.position = round(position);
+                if (obj.position(1) == 0)
+                    obj.position(1) = 1;
+                end
+                if (obj.position(2) == 0)
+                    obj.position(2) = 1;
+                end
                 obj.velocity = round(velocity);
                 obj.tankSize = tankSize;
                 obj.positionReal = position;
@@ -49,6 +55,12 @@ classdef Fish < handle
             end
             obj.positionReal = pos;
             obj.position = round(pos);
+            if (obj.position(1) == 0)
+                obj.position(1) = 1;
+            end
+            if (obj.position(2) == 0)
+                obj.position(2) = 1;
+            end
             obj.velocity = round(velocity);
         end
         
@@ -75,10 +87,10 @@ classdef Fish < handle
             if (norm([predatorDistanceX predatorDistanceY]) < obj.scareDistance)
                 
                 obj.velocityReal(1) = obj.velocityReal(1) - ...
-                    (predatorPosition(1) - obj.positionReal(1))/3;
+                    (predatorPosition(1) - obj.positionReal(1))/2;
                 
                 obj.velocity(2) = obj.velocity(2) - ...
-                    (predatorPosition(2) - obj.positionReal(2))/3;
+                    (predatorPosition(2) - obj.positionReal(2))/2;
                 
             end
         end

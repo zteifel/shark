@@ -21,8 +21,8 @@ nrOfGenes = C.ga.nrOfGenes;
 population = rand(popSize, nrOfGenes)*2*weightRange-weightRange;
 
 % Change of some constants
-C.tank.tankSize = 50;
-C.tank.nrOfFish = 20;
+C.tank.tankSize = 30;
+C.tank.nrOfFish = 30;
 
 ind = population(1,:);
 

@@ -11,7 +11,7 @@ classdef Aquarium < handle
             obj.tankSize = tank_consts.tankSize;
             % Create shark
             shark_consts.position = ...
-                randi(round(0.25*obj.tankSize),1,2) + round(0.5*obj.tankSize);
+                randi(round(0.25*obj.tankSize),1,2) + round(0.1*obj.tankSize);
             shark_consts.tankSize = tank_consts.tankSize;
             obj.shark = Shark(shark_consts, weights, beta);
             % Create fish shoal
@@ -21,37 +21,28 @@ classdef Aquarium < handle
         function fitness = run(obj,draw)
             while obj.shark.hunting
                 
-                obj.shark.updatePosition(obj.fishShoal.fishes);
+                obj.fishShoal.updateFishes(obj.shark.position);
                 
-                for i=1:length(obj.inhabitants)
-                    newPos = obj.inhabitants{i}.updatePosition(obj.positions);
-                    if i==1 && obj.positions(newPos(1), newPos(2)) > 1; % Kill fish
-                        caughtFish = obj.positions(newPos(1),newPos(2));
-                        obj.inhabitants{caughtFish}.alive = false;
-                        obj.positions(newPos(1),newPos(2)) = 0;
-                    end
-                    pos(newPos(1),newPos(2)) = i;
-                end
-                obj.positions = pos;
+                obj.fishShoal.fishes = obj.shark.updatePosition(obj.fishShoal.fishes);
                 
                 
                 % Temporary way to visualize the model.
                 if (draw)
                     figure(1)
-                    N = length(obj.inhabitants);
+                    N = length(obj.fishShoal.fishes);
                     coordinates = zeros(N,2);
                     for i = 1:N
-                        coordinates(i,:) = obj.inhabitants{i}.position;
+                        coordinates(i,:) = obj.fishShoal.fishes(i).position;
                     end
-                    plot(coordinates(1,1),coordinates(1,2),'r.','markersize',20)
+                    plot(obj.shark.position(1),obj.shark.position(2),'r.','markersize',20)
                     hold on
-                    plot(coordinates(2:end,1),coordinates(2:end,2),'.','markersize',10)
+                    plot(coordinates(1:end,1),coordinates(1:end,2),'.','markersize',10)
                     axis([0 obj.tankSize 0 obj.tankSize])
                     hold off
                     drawnow
                 end
             end
-            fitness = (obj.inhabitants{1}.fishEaten/obj.inhabitants{1}.energy);
+            fitness = (obj.shark.fishEaten/obj.shark.energy);
             
             
         end
