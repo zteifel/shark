@@ -37,11 +37,12 @@ classdef Shark < Animal
         end 
     end
 
-    function updatePosition(obj, fish)
+    function newPos = updateP osition(obj, fishIndividuals)
       tank = zeros(obj.tankSize);
-      for i=1:length(fish)
-        tank(fish.position(1),fish.position(2)) = i; 
+      for i=1:length(fishIndividuals)
+        tank(fishIndividuals(i).position(1),fishIndividuals(i).position(2)) = i; 
       end
+
       bigTank = [tank' tank' tank';tank' tank' tank';tank' tank' tank'];
       bigTank = bigTank > 1;
 
