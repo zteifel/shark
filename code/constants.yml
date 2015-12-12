@@ -20,7 +20,7 @@ tank:
     nrOfFish: 36
 
 shark:
-    maxSpeed: 5
+    maxSpeed: 4
     maxEnergy: 150
     fishEatGoal: 5
     moveAngle: 0.25 # (times pi)
@@ -29,4 +29,4 @@ shark:
     brain: 'ai' # [walnut,ai]
 
 fish:
-    maxSpeed: 2
+    maxSpeed: 3
