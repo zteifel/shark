@@ -5,27 +5,30 @@ classdef StupidFish < Animal
     position
     velocity
     tankSize
-
+    maxSpeed
+    alive = true;
+    
   end
 
   methods
 
-    function obj = StupidFish(position,velocity,tankSize)
+    function obj = StupidFish(position,velocity,maxSpeed,tankSize)
         obj.position = position;
         obj.velocity = velocity;
         obj.tankSize = tankSize;
+        obj.maxSpeed = maxSpeed;
     end
 
     function position =  updatePosition(obj,positions);
-      positon = positon + velocity;
+      obj.position = obj.position + obj.velocity;
       for i=1:2
-        if position(i) > tanksize
-          position(i) = position(i) - obj.tankSize;
-        elseif position(i) < 0 
-          position(i) = position(i) + obj.tankSize;
+        if obj.position(i) > obj.tankSize
+          obj.position(i) = obj.position(i) - obj.tankSize;
+        elseif obj.position(i) <= 0 
+          obj.position(i) = obj.position(i) + obj.tankSize;
         end
       end
-      obj.position = position;
+      position = obj.position;
     end  
 
   end

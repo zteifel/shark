@@ -10,11 +10,11 @@ classdef AIBrain < Brain
             obj.weights = weights;
             obj.beta = beta;
         end
-        function [velocity, direction] = getMovement(obj,inputs,beta)
-            squash = @(x) 1./(1+exp(-beta.*x));
-            
-            for i=1:length(weights)
-                inputs = squash(weights{i}*[inputs; 1]);
+        function [velocity, direction] = getMovement(obj,inputs)
+            squash = @(x) 1./(1+exp(-obj.beta.*x));
+            inputs = [inputs; 1];
+            for i=1:length(obj.weights)
+                inputs = squash(obj.weights{i}*inputs);
             end
             velocity = inputs(1);
             direction = inputs(2);

@@ -1,5 +1,5 @@
-classdef (Abstract) Animal 
-    properties
+classdef (Abstract) Animal < handle
+    properties (Abstract)
         position
         tankSize
     end

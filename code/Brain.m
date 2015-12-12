@@ -1,6 +1,6 @@
 classdef (Abstract) Brain
     properties
-        maxspeed = 20; 
+        maxspeed 
     end
     methods (Abstract)
        getMovement(obj,input)
