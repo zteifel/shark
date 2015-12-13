@@ -14,8 +14,9 @@ methods
   obj.figIndex = 1;
  end
  
- function stillfig(obj) % Draw figure of current Aquarium.
-  % Usage: thisObject.stillfig in loop with Aquarium.
+ function obj = stillfig(obj,aq) % Draw figure of current Aquarium.
+  % Usage: thisObject = thisObject.stillfig(Aquarium) in loop with Aquarium.
+  obj.aq = aq;
   figure(1)
   N = length(obj.aq.fishShoal.fishes);
   coordinates = zeros(N,2);
@@ -37,9 +38,9 @@ methods
   print(exportPath,'-dpng')
  end
  
- function obj = animate(obj) % Record movie.
-  % Usage: thisObject = thisObject.animate in loop with Aquarium.
-  movieHandle = figure(1);
+ function obj = animate(obj,aq) % Record movie.
+  % Usage: thisObject = thisObject.animate(Aquarium) in loop with Aquarium.
+  obj.aq = aq;
   N = length(obj.aq.fishShoal.fishes);
   coordinates = zeros(N,2);
   for i = 1:N
