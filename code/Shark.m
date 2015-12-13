@@ -85,7 +85,7 @@ classdef Shark < Animal
         fishIndividuals(iFish) = []; 
         obj.fishEaten = obj.fishEaten + 1;
       end 
-      obj.energy = obj.energy + ( floor(velocity*obj.maxSpeed)+1 ); 
+      obj.energy = obj.energy + ( floor(normSpeed*obj.maxSpeed)+1 ); 
       if obj.fishEaten >= obj.fishEatGoal || obj.energy >= obj.maxEnergy
         if obj.energy >= obj.maxEnergy
           obj.energy = obj.maxEnergy;
