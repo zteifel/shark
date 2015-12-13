@@ -52,7 +52,7 @@ classdef SharkTraining
 
         % Evaluate all chromosomes
         fitness = zeros(obj.C.ga.populationSize,1);
-        parfor i=1: obj.C.ga.populationSize
+        for i=1: obj.C.ga.populationSize
           fitness(i) = obj.evalChromosome(obj.population(i,:));
           disp(sprintf( ...
             'Ind %i(%i), Fitness: %i',i,obj.C.ga.populationSize,fitness(i)));

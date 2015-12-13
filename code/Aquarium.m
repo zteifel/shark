@@ -1,62 +1,85 @@
 classdef Aquarium < handle
     
   properties
-    inhabitants
+    shark
     positions
     tankSize
+    fig
   end
 
   methods
     function obj = Aquarium(shark_consts, tank_consts, fish_consts, weights, beta);
-      obj.positions = zeros(tank_consts.tankSize);
       obj.tankSize = tank_consts.tankSize;
       % Create shark
-      shark_consts.position = ...
-        randi(round(0.25*obj.tankSize),1,2) + round(0.5*obj.tankSize);
+      shark_consts.position = randi(obj.tankSize,1,2); 
       shark_consts.tankSize = tank_consts.tankSize;
-      shark = Shark(shark_consts, weights, beta);
-      obj.inhabitants{1} = shark;
-      obj.positions(shark.position(1),shark.position(2)) = 1;
-      % Create fish shoal
-      fishVelocity = randi(fish_consts.maxSpeed,1,2).*(1-2*(randi(2,1,2)-1));
-      while norm(fishVelocity) > fish_consts.maxSpeed
-        fishVelocity = randi(fish_consts.maxSpeed,1,2).*(1-2*(randi(2,1,2)-1));
-      end
-      for i=2:tank_consts.nrOfFish+1
-        pos = randi(round(tank_consts.tankSize/4),1,2);
-        while obj.positions(pos(1),pos(2)) ~= 0
-            pos = randi(round(tank_consts.tankSize/4),1,2);
+      obj.shark = Shark(shark_consts, weights, beta);
+      % Create fish
+      fishPos = obj.posNotCloseToShark(obj.shark.position);
+      positions = zeros(obj.tankSize);
+      positions(fishPos(1),fishPos(2)) = 2;
+      obj.positions = positions; 
+      obj.fig = obj.initFig();
+    end
+
+    function fig = initFig(obj)
+        fig = figure(2);
+        [fishX,fishY] = find(obj.positions == 2);
+        sc = scatter([fishX obj.shark.position(1)], ...
+                     [fishY obj.shark.position(2)], ...
+                     'filled'); hold on;
+        qf = quiver(obj.shark.position(1),obj.shark.position(2),0,0,0, 'r');
+        hold on;
+        qb = quiver(obj.shark.position(1),obj.shark.position(2),0,0,0, 'g');
+        hold on;
+        qc = quiver(obj.shark.position(1),obj.shark.position(2),0,0,0,'k');
+        hold off;
+        h = guidata(fig);
+        h.sc = sc; h.qf = qf; h.qb = qb; h.qc = qc;
+        guidata(fig,h); 
+        axis equal;
+        axis([0 obj.tankSize 0 obj.tankSize]);
+    end
+
+    function newPos = posNotCloseToShark(obj,pos)
+      dist = randi(obj.tankSize/2,1,2)+obj.tankSize/4;
+      newPos = pos + (1-2*(randi(2,1,2)-1)).*dist;
+      for i=1:2
+        if newPos(i) > obj.tankSize
+            newPos(i) = newPos(i)-obj.tankSize;
+        elseif newPos(i) < 1
+            newPos(i) = newPos(i) + obj.tankSize;
         end
-        obj.inhabitants{i} = StupidFish(pos,fishVelocity,fish_consts.maxSpeed,obj.tankSize);
-        obj.positions(pos(1),pos(2)) = i; 
       end
     end
 
+    function updateFig(obj)
+      [fishX,fishY] = find(obj.positions==2);
+      inputs = obj.shark.drawInputs;
+      h = guidata(obj.fig);
+      set(h.sc,'XData',[fishX inputs.pos(1)], ...
+               'YData',[fishY inputs.pos(2)]);
+      set(h.qf,'XData',inputs.pos(1), 'YData', inputs.pos(2), ...
+               'UData',inputs.fc(1), 'VData', inputs.fc(2));
+      set(h.qb,'XData',inputs.pos(1), 'YData', inputs.pos(2), ...
+               'UData',inputs.bc(1), 'VData', inputs.bc(2));
+      set(h.qc,'XData',inputs.pos(1), 'YData', inputs.pos(2), ...
+               'UData',inputs.cc(1), 'VData', inputs.cc(2));
+      drawnow;
+    end
+
     function fitness = run(obj)
-      while obj.inhabitants{1}.hunting 
-        if rand < 0.1
-          mspeed = obj.inhabitants{2}.maxSpeed;
-          fishVelocity = randi(mspeed,1,2).*(1-2*(randi(2,1,2)-1));
-          while norm(fishVelocity) > mspeed
-            fishVelocity = randi(mspeed,1,2).*(1-2*(randi(2,1,2)-1));
-          end
-          for i=2:length(obj.inhabitants)
-            obj.inhabitants{i}.velocity = fishVelocity; 
-          end
-        end
-        pos = zeros(obj.tankSize);
-        for i=1:length(obj.inhabitants)
-          newPos = obj.inhabitants{i}.updatePosition(obj.positions);
-          if i==1 && obj.positions(newPos(1), newPos(2)) > 1; % Kill fish
-            caughtFish = obj.positions(newPos(1),newPos(2)); 
-            obj.inhabitants{caughtFish}.alive = false;
+      while obj.shark.hunting 
+        % Update shark position
+        newPos = obj.shark.updatePosition(obj.positions);
+        obj.updateFig();
+        if obj.positions(newPos(1),newPos(2)) > 1
             obj.positions(newPos(1),newPos(2)) = 0;
-          end
-          pos(newPos(1),newPos(2)) = i;
+            fishPos = obj.posNotCloseToShark(newPos);
+            obj.positions(fishPos(1),fishPos(2)) = 2;
         end
-        obj.positions = pos;
       end
-      fitness = (obj.inhabitants{1}.fishEaten/obj.inhabitants{1}.energy); 
+      fitness = (obj.shark.fishEaten/obj.shark.energy); 
     end 
   end
 

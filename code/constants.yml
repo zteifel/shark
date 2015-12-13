@@ -9,23 +9,23 @@ ga:
     nrOfGenes: # Leave blank, calculated by sharktank
 
 nn:
-    weightRange: 1
+    weightRange: 0.2
     beta: 0.5
-    nrOfHiddenLayers: 2
+    nrOfHiddenLayers: 3
     nrOfInputs: 6
     nrOfOutputs: 2
 
 tank:
-    tankSize: 25
-    nrOfFish: 36
+    tankSize: 40
+    nrOfFish: 1
 
 shark:
-    maxSpeed: 5
-    maxEnergy: 150
+    maxSpeed: 7
+    maxEnergy: 300
     fishEatGoal: 5
     moveAngle: 0.25 # (times pi)
     closeObserve: 1 # nr of fish it can observe close by
-    observeDist: 12
+    observeDist: 20 
     brain: 'ai' # [walnut,ai]
 
 fish:

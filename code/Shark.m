@@ -13,6 +13,7 @@ classdef Shark < Animal
     closeObserve
     hunting = true;
     fishEaten = 0;
+    drawInputs
   end
 
   methods
@@ -38,7 +39,10 @@ classdef Shark < Animal
     end
 
     function newPos = updatePosition(obj, tank)
-      bigTank = [tank' tank' tank';tank' tank' tank';tank' tank' tank'];
+      obj.drawInputs.pos = obj.position;
+      obj.drawInputs.cc = [0,0];
+
+      bigTank = [tank tank tank;tank tank tank;tank tank tank];
       bigTank = bigTank > 1;
 
       fishInObs = obj.fishInObserveDist(obj.observeDist);
@@ -59,7 +63,12 @@ classdef Shark < Animal
         end
         brainInputs(i) = dist;
         brainInputs(3 + i) = angle;
-      end 
+        if i==1
+          obj.drawInputs.fc = center;
+        else
+          obj.drawInputs.bc = center;
+        end
+      end
 
       close_fish = bigTank;
       close_fish( ...
@@ -78,7 +87,7 @@ classdef Shark < Animal
       if tank(obj.position(1), obj.position(2)) > 1
         obj.fishEaten = obj.fishEaten + 1;
       end
-      obj.energy = obj.energy + ( floor(velocity*obj.maxSpeed)+1 );
+      obj.energy = obj.energy + ( floor(normSpeed*obj.maxSpeed)+1 );
       if obj.fishEaten >= obj.fishEatGoal || obj.energy >= obj.maxEnergy
         if obj.energy >= obj.maxEnergy
           obj.energy = obj.maxEnergy;
@@ -131,6 +140,9 @@ classdef Shark < Animal
         2*acos(dot([x,y],sharkBase')/(norm([x,y])*norm(sharkBase)))/pi,xs,ys);
       angles = angles(iSort);
       angles = angles(1:nr);
+
+      % Draw stuff
+      obj.drawInputs.cc = [xs(iSort(1)),ys(iSort(1))];
     end
 
     function angle = normAngle(obj,center)
