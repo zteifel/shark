@@ -80,7 +80,7 @@ classdef Aquarium < handle
         end
       end
       avgDist = mean(obj.shark.distToFish);
-      fitness = (obj.shark.fishEaten+avgDist)/obj.shark.energy; 
+      fitness = (avgDist^2); 
     end 
   end
 

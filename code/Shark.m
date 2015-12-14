@@ -66,10 +66,14 @@ classdef Shark < Animal
         brainInputs(3 + i) = angle;
         if i==1
           obj.drawInputs.fc = center;
-          obj.distToFish = [obj.distToFish dist];
         else
           obj.drawInputs.bc = center;
         end
+      end
+      if brainInputs(1) > brainInputs(2)
+        obj.distToFish = [obj.distToFish brainInputs(1)];
+      else
+        obj.distToFish = [obj.distToFish brainInputs(1)];
       end
 
       close_fish = bigTank;
