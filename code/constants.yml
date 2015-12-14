@@ -16,8 +16,8 @@ nn:
     nrOfOutputs: 2
 
 tank:
-    tankSize: 25
-    nrOfFish: 36
+    tankSize: 30
+    nrOfFish: 30
 
 shark:
     maxSpeed: 5
