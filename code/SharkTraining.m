@@ -45,6 +45,7 @@ classdef SharkTraining
       count = 0;
 
       fitnessHist = zeros(10^5,1);
+      fitnessAvg = zeros(10^5,1);
       while not(h.stoptraining)
         drawnow;
         h = guidata(obj.fitness_fig);
@@ -87,9 +88,10 @@ classdef SharkTraining
         tempPopulation = obj.insertBestInd(tempPopulation,bestInd);
 
         obj.population = tempPopulation;
+        fitnessAvg(count) = mean(fitness);
         fitnessHist(count) = bestFitness;
         bestWeights = obj.decodeChromosome(bestInd);
-        obj.updateFig(fitnessHist(1:count));
+        obj.updateFig(fitnessHist(1:count),fitnessAvg(1:count));
         if obj.save_data
           obj.save_weights(bestWeights,bestFitness,count);
         end
@@ -192,7 +194,8 @@ classdef SharkTraining
 
     function fig = initFitnessFigure(obj)
       fig = figure();
-      pl = plot(1:1,'k');
+      pl1 = plot(1:1,'k'); hold on;
+      pl2 = plot(1:1,'r'); hold off;
       uicontrol('Style', 'pushbutton', ...
                 'String','Stop training', ...
                 'Position',[ 10 10 110 20], ...
@@ -204,14 +207,17 @@ classdef SharkTraining
       h = guidata(fig);
       h.stoptraining = false;
       h.sharktrain = obj;
-      h.pl = pl;
+      h.pl1 = pl1;
+      h.pl2 = pl2;
       guidata(fig,h);
     end
 
-    function updateFig(obj,fitness)
+    function updateFig(obj,fitness_hst,fitness_avg)
         h = guidata(obj.fitness_fig);
-        pl = h.pl;
-        pl.YData = fitness;
+        pl1 = h.pl1;
+        pl2 = h.pl2;
+        pl1.YData = fitness_hst;
+        pl2.YData = fitness_avg;
         drawnow;
     end
 
