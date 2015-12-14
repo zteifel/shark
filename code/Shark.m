@@ -3,6 +3,7 @@ classdef Shark < Animal
     position
     direction
     observeDist
+    distToFish = 0;
     tankSize
     brain
     maxSpeed
@@ -65,6 +66,7 @@ classdef Shark < Animal
         brainInputs(3 + i) = angle;
         if i==1
           obj.drawInputs.fc = center;
+          obj.distToFish = [obj.distToFish dist];
         else
           obj.drawInputs.bc = center;
         end

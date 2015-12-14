@@ -1,9 +1,9 @@
 ga:
-    tournamentSize: 5
+    tournamentSize: 3
     tournamentProb: 0.85
-    populationSize: 20
+    populationSize: 32 # Multipel of 4 to use parallel correct.
     crossProb: 0.75
-    eliteInserts: 1
+    eliteInserts: 2
     mutateProb: 1  # constant to multiply with 1/nrOfGens;
     creepRate: 0.5 # Percent of weightRange
     nrOfGenes: # Leave blank, calculated by sharktank
@@ -21,11 +21,11 @@ tank:
 
 shark:
     maxSpeed: 7
-    maxEnergy: 300
-    fishEatGoal: 5
+    maxEnergy: 100
+    fishEatGoal: 3
     moveAngle: 0.25 # (times pi)
     closeObserve: 1 # nr of fish it can observe close by
-    observeDist: 20 
+    observeDist: 25 
     brain: 'ai' # [walnut,ai]
 
 fish:

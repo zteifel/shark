@@ -50,9 +50,10 @@ classdef SharkTraining
         h = guidata(obj.fitness_fig);
         count = count + 1;
 
+        disp(sprintf('============== Gen %d ==============',count));
         % Evaluate all chromosomes
         fitness = zeros(obj.C.ga.populationSize,1);
-        for i=1: obj.C.ga.populationSize
+        parfor i=1: obj.C.ga.populationSize
           fitness(i) = obj.evalChromosome(obj.population(i,:));
           disp(sprintf( ...
             'Ind %i(%i), Fitness: %i',i,obj.C.ga.populationSize,fitness(i)));
@@ -183,7 +184,7 @@ classdef SharkTraining
     %%%%%%%  Helpers %%%%%%%%%%%%%
 
     function stopTraining(obj,src,eventData)
-      disp('Training stopped');
+      disp('Training stopped! Wait for generation to finish...');
       h = guidata(src.Parent);
       h.stoptraining = true;
       guidata(src.Parent,h);

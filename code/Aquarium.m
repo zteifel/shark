@@ -79,7 +79,8 @@ classdef Aquarium < handle
             obj.positions(fishPos(1),fishPos(2)) = 2;
         end
       end
-      fitness = (obj.shark.fishEaten/obj.shark.energy); 
+      avgDist = mean(obj.shark.distToFish);
+      fitness = (obj.shark.fishEaten+avgDist)/obj.shark.energy; 
     end 
   end
 
