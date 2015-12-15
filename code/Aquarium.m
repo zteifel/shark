@@ -19,7 +19,7 @@ classdef Aquarium < handle
       positions = zeros(obj.tankSize);
       positions(fishPos(1),fishPos(2)) = 2;
       obj.positions = positions; 
-      obj.fig = obj.initFig();
+      % obj.fig = obj.initFig();
     end
 
     function fig = initFig(obj)
@@ -72,9 +72,10 @@ classdef Aquarium < handle
       while obj.shark.hunting 
         % Update shark position
         newPos = obj.shark.updatePosition(obj.positions);
-        obj.updateFig();
-        if obj.positions(newPos(1),newPos(2)) > 1
-            obj.positions(newPos(1),newPos(2)) = 0;
+        %obj.updateFig();
+        %if obj.positions(newPos(1),newPos(2)) > 1
+        if rand < 0.05
+            obj.positions = zeros(obj.tankSize);
             fishPos = obj.posNotCloseToShark(newPos);
             obj.positions(fishPos(1),fishPos(2)) = 2;
         end
