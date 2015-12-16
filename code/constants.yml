@@ -1,9 +1,9 @@
 ga:
     tournamentSize: 3
     tournamentProb: 0.85
-    populationSize: 36 # Multipel of 4 to use parallel correct.
-    crossProb: 0.75
-    eliteInserts: 2
+    populationSize: 32 # Multipel of 4 to use parallel correct.
+    crossProb: 0.35
+    eliteInserts: 1
     mutateProb: 1  # constant to multiply with 1/nrOfGens;
     creepRate: 0.1 # Percent of weightRange
     nrOfGenes: # Leave blank, calculated by sharktank
@@ -25,7 +25,7 @@ shark:
     fishEatGoal: 50
     moveAngle: 0.25 # (times pi)
     closeObserve: 1 # nr of fish it can observe close by
-    observeDist: 25
+    observeDist: 20
     brain: 'ai' # [walnut,ai]
 
 fish:
