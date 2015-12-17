@@ -16,7 +16,7 @@ nn:
     nrOfOutputs: 2
 
 tank:
-    tankSize: 40
+    tankSize: 60
     nrOfFish: 1
 
 shark:
