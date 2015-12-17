@@ -15,7 +15,9 @@ classdef Aquarium < handle
             shark_consts.tankSize = tank_consts.tankSize;
             obj.shark = Shark(shark_consts, weights, beta);
             % Create fish shoal
-            obj.fishShoal = FishShoal(tank_consts.tankSize, tank_consts.nrOfFish, fish_consts.maxSpeed);
+            obj.fishShoal = FishShoal(tank_consts.tankSize, ...
+                                      tank_consts.nrOfFish, ...
+                                      fish_consts.maxSpeed);
         end
 
         function fitness = run(obj,draw)
@@ -26,7 +28,7 @@ classdef Aquarium < handle
                 obj.fishShoal.fishes = obj.shark.updatePosition(obj.fishShoal.fishes);
             end
             distToFish = (obj.shark.distToFish/count)^2;
-            fitness = (obj.shark.fishEaten+distToFish)/obj.shark.energy);
+            fitness = (obj.shark.fishEaten+distToFish)/obj.shark.energy;
         end
     end
 
