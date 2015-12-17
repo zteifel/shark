@@ -232,9 +232,11 @@ classdef SharkTraining
     end
 
     function success = save_weights(obj,weights,fitness,gen)
+      population = obj.population;
       mat_file = [obj.save_path sprintf('/weights_%d.mat',gen)];
-      save(mat_file,'weights','fitness');
+      save(mat_file,'weights','fitness','population');
     end
+
 
     function constants = importConstantsFromFile(obj, yaml_path)
       addpath('../lib/yamlmatlab');
