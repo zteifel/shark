@@ -19,7 +19,7 @@ classdef Aquarium < handle
                 fish_consts.driftSpeed, fish_consts.maxSpeed, fish_consts.scareDistance);
         end
 
-        function fitness = run(obj,draw)
+        function fitness = run(obj)
             count = 0;
             while obj.shark.hunting
                 count = count + 1;
