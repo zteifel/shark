@@ -2,31 +2,26 @@ close all
 clear all
 
 %parameters
-N = 20; %school size
+N = 30; %school size
 T = 100; %tank size
 
 
-m = T/2 - 4.5;
-n = T/2 + 4.5;
-
 % Initialize fishes and calculator
-fishCalculation = FishCalculation(T);
+fishShoal = FishShoal(T, N, 2, 3, 10);
 
-for i = 1:N
-    r = rand;
-    velocity = fishCalculation.speed*[cos(2*pi*r) sin(2*pi*r)];
-    position = [m+(n-m)*rand m+(n-m)*rand];
-    fishes{i} = Fish(position,velocity,T);
-end
+trapPos = [80 50];
 
-draw;
+%draw;
+
 
 
 % Simulate
 while(1)
+    tic
+    fishShoal.updateFishes(trapPos);
+    toc
     
-    fishCalculation.updateFishes(fishes);
-    
+    pause(10)
     draw;
     
 end
