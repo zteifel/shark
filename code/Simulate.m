@@ -43,4 +43,3 @@ weights{length(weights)+1} = reshape(last,[outputs,length(last)/outputs]);
 sharktank = Aquarium(C.shark,C.tank,C.fish,weights,C.nn.beta);
 sharktank.run(1)
 
-
