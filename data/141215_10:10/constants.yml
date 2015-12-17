@@ -1,0 +1,7 @@
+ga: {tournamentSize: 3.0, tournamentProb: 0.85, populationSize: 32.0, crossProb: 0.75,
+  eliteInserts: 2.0, mutateProb: 0.01, creepRate: 0.5, nrOfGenes: 100.0}
+nn: {weightRange: 0.2, beta: 0.5, nrOfHiddenLayers: 3.0, nrOfInputs: 6.0, nrOfOutputs: 2.0}
+tank: {tankSize: 40.0, nrOfFish: 5.0}
+shark: {maxSpeed: 7.0, maxEnergy: 100.0, fishEatGoal: 3.0, moveAngle: 0.25, closeObserve: 1.0,
+  observeDist: 25.0, brain: ai}
+fish: {maxSpeed: 2.0}
