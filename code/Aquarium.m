@@ -19,11 +19,14 @@ classdef Aquarium < handle
         end
 
         function fitness = run(obj,draw)
+            count = 0;
             while obj.shark.hunting
+                count = count + 1;
                 obj.fishShoal.updateFishes(obj.shark.position);
                 obj.fishShoal.fishes = obj.shark.updatePosition(obj.fishShoal.fishes);
             end
-            fitness = (obj.shark.fishEaten/obj.shark.energy);
+            distToFish = (obj.shark.distToFish/count)^2;
+            fitness = (obj.shark.fishEaten+distToFish)/obj.shark.energy);
         end
     end
 
