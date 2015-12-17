@@ -14,7 +14,7 @@ classdef Fish < handle
     
     methods
         
-        function obj = Fish(position,velocity,tankSize,maxSpeed)
+        function obj = Fish(position,velocity,tankSize,scareDistance,maxSpeed)
             if (nargin > 0)
                 obj.position = round(position);
                 if (obj.position(1) == 0)
@@ -25,10 +25,10 @@ classdef Fish < handle
                 end
                 obj.velocity = round(velocity);
                 obj.tankSize = tankSize;
+                obj.scareDistance = scareDistance;
+                obj.maxSpeed = maxSpeed;
                 obj.positionReal = position;
                 obj.velocityReal = velocity;
-                obj.maxSpeed = maxSpeed;
-                
             end
         end
         

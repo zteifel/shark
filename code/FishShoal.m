@@ -4,7 +4,9 @@ classdef FishShoal
         
         T = 100; %tank size
         fishes;
+        driftSpeed;
         maxSpeed;
+        
         
     end
     
@@ -17,24 +19,24 @@ classdef FishShoal
         r3 = 10;
         w = 30; %dead angle omega
         frontOffset = 0; % KEEP AT 0!
-        speed = 2;
-        
+         
     end
     
     
     methods
         
-        function obj = FishShoal(tankSize, shoalSize, maxSpeed)
+        function obj = FishShoal(tankSize, shoalSize, driftSpeed, maxSpeed, scareDistance)
             obj.T = tankSize;
+            obj.driftSpeed = driftSpeed;
             obj.maxSpeed = maxSpeed;
             
             m = tankSize/2 - 4.5;
             n = tankSize/2 + 4.5;
             for i = 1:shoalSize
                 r = rand;
-                velocity = obj.speed*[cos(2*pi*r) sin(2*pi*r)];
+                velocity = obj.driftSpeed*[cos(2*pi*r) sin(2*pi*r)];
                 position = [m+(n-m)*rand m+(n-m)*rand];
-                fish = Fish(position,velocity,tankSize,maxSpeed);
+                fish = Fish(position,velocity,tankSize,scareDistance,maxSpeed);
                 obj.fishes = [obj.fishes fish];
             end
         end
@@ -179,7 +181,7 @@ classdef FishShoal
                         theta_new = npi2pi(theta_old + alpha);
                         
                     end
-                    velocityReal = obj.speed*[cosd(theta_new) sind(theta_new)];
+                    velocityReal = obj.driftSpeed*[cosd(theta_new) sind(theta_new)];
                 %end
                 
                 %velocityReal = gamrnd(4,1/3.3)*[cosd(theta_new) sind(theta_new)];
