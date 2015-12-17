@@ -4,7 +4,7 @@ classdef Aquarium < handle
     shark
     fishShoal
     tankSize
-    %fig
+    fig
   end
 
   methods
@@ -12,16 +12,16 @@ classdef Aquarium < handle
       obj.tankSize = tank_consts.tankSize;
 
       % Create shark
-      shark_consts.position = randi(obj.tankSize,1,2),
+      shark_consts.position = randi(obj.tankSize,1,2);
       shark_consts.tankSize = tank_consts.tankSize;
       obj.shark = Shark(shark_consts, weights, beta);
 
       % Create fish
       fishPos = obj.posNotCloseToShark(obj.shark.position);
+
       obj.fishShoal = struct('fishes', ...
         [struct('position',fishPos),struct('position',fishPos)]);
-
-      obj.fig = obj.initFig();
+      % obj.fig = obj.initFig();
     end
 
     function fig = initFig(obj)
@@ -85,7 +85,7 @@ classdef Aquarium < handle
         count = count + 1;
         % Update shark position
         newPos = obj.shark.updatePosition(obj.fishShoal.fishes);
-        obj.updateFig();
+        % obj.updateFig();
       end
       avgDist = obj.shark.distToFish/count;
       fitness = (avgDist^2);

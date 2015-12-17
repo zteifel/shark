@@ -93,11 +93,11 @@ classdef Shark < Animal
         end
         % Fish close
         cc = ...
-          allPos(find(2*pi-obj.moveAngle<angles & angles<obj.moveAngle,1));
-        if isempty(cc)
+          allPos(:,find(abs(angles) < obj.moveAngle,1));
+        if isempty(cc) || norm(cc) > obj.maxSpeed
           cc = [0,0]; cd = 0; ca = 0.5;
         else
-          [cd,ca] = getNormPolPos(obj.moveAngle,cc,obj.maxSpeed);
+          [cd,ca] = obj.getNormPolPos(obj.moveAngle,cc,obj.maxSpeed);
         end
         % Create drawInputs
         drawInputs.fc = fc; drawInputs.bc = bc; 
@@ -106,13 +106,13 @@ classdef Shark < Animal
         brainInputs = [fd,bd,cd,fa,ba,ca];
       end
       obj.drawInputs = drawInputs;
+      obj.drawInputs.dir = obj.direction;
 
       [normSpeed, normDir] = obj.brain.getMovement(brainInputs');
 
       [newPos, newDir] = obj.newPosition(normSpeed,normDir,obj.moveAngle);
       obj.position = newPos;
       obj.direction = newDir;
-      obj.drawInputs.dir = newDir;
 
       % Compute dist to fish in this iteration
       if brainInputs(2) > brainInputs(1)
