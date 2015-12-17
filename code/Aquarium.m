@@ -1,11 +1,11 @@
 classdef Aquarium < handle
-    
+
     properties
         shark
         tankSize
         fishShoal
     end
-    
+
     methods
         function obj = Aquarium(shark_consts, tank_consts, fish_consts, weights, beta)
             obj.tankSize = tank_consts.tankSize;
@@ -18,35 +18,17 @@ classdef Aquarium < handle
             obj.fishShoal = FishShoal(tank_consts.tankSize, tank_consts.nrOfFish,...
                 fish_consts.driftSpeed, fish_consts.maxSpeed, fish_consts.scareDistance);
         end
-        
+
         function fitness = run(obj,draw)
+            count = 0;
             while obj.shark.hunting
-                
+                count = count + 1;
                 obj.fishShoal.updateFishes(obj.shark.position);
-                
                 obj.fishShoal.fishes = obj.shark.updatePosition(obj.fishShoal.fishes);
-                
-                
-                % Temporary way to visualize the model.
-                if (draw)
-                    figure(1)
-                    N = length(obj.fishShoal.fishes);
-                    coordinates = zeros(N,2);
-                    for i = 1:N
-                        coordinates(i,:) = obj.fishShoal.fishes(i).position;
-                    end
-                    plot(obj.shark.position(1),obj.shark.position(2),'r.','markersize',20)
-                    hold on
-                    plot(coordinates(1:end,1),coordinates(1:end,2),'.','markersize',10)
-                    axis([0 obj.tankSize 0 obj.tankSize])
-                    hold off
-                    drawnow
-                end
             end
-            fitness = (obj.shark.fishEaten/obj.shark.energy);
-            
-            
+            distToFish = (obj.shark.distToFish/count)^2;
+            fitness = (obj.shark.fishEaten+distToFish)/obj.shark.energy;
         end
     end
-    
+
 end
