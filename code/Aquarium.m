@@ -79,7 +79,7 @@ classdef Aquarium < handle
 
         if obj.positions(newPos(1),newPos(2)) > 1
             obj.positions(newPos(1),newPos(2)) = 0;
-
+        end
         %if obj.positions(newPos(1),newPos(2)) > 1
         if rand < 0.05
             obj.positions = zeros(obj.tankSize);
