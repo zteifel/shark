@@ -106,7 +106,7 @@ classdef FishShoal
             end
             
             % beta = transpose(rad2deg(atan2(velocities(:,1),velocities(:,2))*ones(N))) - ...
-                rad2deg(atan2(velocities(:,1),velocities(:,2))*ones(N));
+                % rad2deg(atan2(velocities(:,1),velocities(:,2))*ones(N));
             
             
             
