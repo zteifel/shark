@@ -1,32 +1,32 @@
 ga:
-    tournamentSize: 3
-    tournamentProb: 0.85
-    populationSize: 25
-    crossProb: 0.35
-    eliteInserts: 2
+    tournamentSize: 5
+    tournamentProb: 0.75
+    populationSize: 32 # Multipel of 4 to use parallel correct.
+    crossProb: 0.65
+    eliteInserts: 1
     mutateProb: 1  # constant to multiply with 1/nrOfGens;
-    creepRate: 0.3 # Percent of weightRange
+    creepRate: 0.07 # Percent of weightRange
     nrOfGenes: # Leave blank, calculated by sharktank
 
 nn:
-    weightRange: 0.2
+    weightRange: 10
     beta: 0.5
-    nrOfHiddenLayers: 1
+    nrOfHiddenLayers: 3
     nrOfInputs: 6
     nrOfOutputs: 2
 
 tank:
-    tankSize: 30
+    tankSize: 100
     nrOfFish: 30
 
 shark:
-    maxSpeed: 7
-    maxEnergy: 250
-    fishEatGoal: 4
+    maxSpeed: 5
+    maxEnergy: 500
+    fishEatGoal: 50
     moveAngle: 0.25 # (times pi)
     closeObserve: 1 # nr of fish it can observe close by
-    observeDist: 20
+    observeDist: 40
     brain: 'ai' # [walnut,ai]
 
 fish:
-    maxSpeed: 3
+    maxSpeed: 2
