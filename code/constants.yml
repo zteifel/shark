@@ -32,3 +32,4 @@ fish:
     driftSpeed: 2
     maxSpeed: 3
     scareDistance: 10
+    attractionDistance: 15

@@ -16,7 +16,8 @@ classdef Aquarium < handle
             obj.shark = Shark(shark_consts, weights, beta);
             % Create fish shoal
             obj.fishShoal = FishShoal(tank_consts.tankSize, tank_consts.nrOfFish,...
-                fish_consts.driftSpeed, fish_consts.maxSpeed, fish_consts.scareDistance);
+                fish_consts.driftSpeed, fish_consts.maxSpeed, fish_consts.scareDistance,...
+                fish_consts.attractionDistance);
         end
 
         function fitness = run(obj)
