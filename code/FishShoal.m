@@ -71,10 +71,6 @@ classdef FishShoal
             
             dp.x = transpose(positions(:,1)*ones(1,N)) - positions(:,1)*ones(1,N);
             dp.y = transpose(positions(:,2)*ones(1,N)) - positions(:,2)*ones(1,N);
-            dp.x(dp.x < -obj.T/2) = dp.x(dp.x < -obj.T/2) + obj.T;
-            dp.x(dp.x > obj.T/2) = dp.x(dp.x > obj.T/2) - obj.T;
-            dp.x(dp.y < -obj.T/2) = dp.y(dp.y < -obj.T/2) + obj.T;
-            dp.x(dp.y > obj.T/2) = dp.y(dp.y > obj.T/2) - obj.T;
             
             dp.theta = npi2pi(rad2deg(atan2(dp.y, dp.x)));
             
@@ -123,7 +119,7 @@ classdef FishShoal
             temp = zeros(1,N-1);
             for i = 1:N
                 
-                %                 Far from center
+                % Far from center
                 if (norm(averagePosition - obj.fishes(i).positionReal) > obj.attractionDistance)
                     theta_new = rad2deg(atan2(averagePosition(2) - obj.fishes(i).positionReal(2),...
                         averagePosition(1) - obj.fishes(i).positionReal(1)));
