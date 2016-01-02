@@ -46,13 +46,7 @@ classdef Fish < handle
             end
             
             pos = obj.positionReal + obj.velocityReal;
-            for i=1:2
-                if pos(i) > obj.tankSize
-                    pos(i) = pos(i) - obj.tankSize;
-                elseif pos(i) < 0
-                    pos(i) = pos(i) + obj.tankSize;
-                end
-            end
+            
             obj.positionReal = pos;
             obj.position = round(pos);
             if (obj.position(1) == 0)
@@ -67,29 +61,14 @@ classdef Fish < handle
         function obj = predatorFlee(obj,predatorPosition)
             
             predatorDistanceX = predatorPosition(1) - obj.positionReal(1);
-            if (predatorDistanceX < -obj.tankSize/2)
-                predatorDistanceX = predatorPosition(1) - ...
-                    (obj.positionReal(1) - obj.tankSize);
-            elseif (predatorDistanceX > obj.tankSize/2)
-                predatorDistanceX = predatorPosition(1) - ...
-                    (obj.positionReal(1) + obj.tankSize);
-            end
-            
             predatorDistanceY = predatorPosition(2) - obj.positionReal(2);
-            if (predatorDistanceY < -obj.tankSize/2)
-                predatorDistanceY = predatorPosition(2) - ...
-                    (obj.positionReal(2) - obj.tankSize);
-            elseif (predatorDistanceY > obj.tankSize/2)
-                predatorDistanceY = predatorPosition(2) - ...
-                    (obj.positionReal(2) + obj.tankSize);
-            end
-            
+    
             if (norm([predatorDistanceX predatorDistanceY]) < obj.scareDistance)
                 
                 obj.velocityReal(1) = obj.velocityReal(1) - ...
                     (predatorPosition(1) - obj.positionReal(1))/2;
                 
-                obj.velocity(2) = obj.velocity(2) - ...
+                obj.velocityReal(2) = obj.velocityReal(2) - ...
                     (predatorPosition(2) - obj.positionReal(2))/2;
                 
             end
