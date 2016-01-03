@@ -20,7 +20,7 @@ classdef Shark < Animal
   methods
     function obj = Shark(consts,weights,beta);
         obj.position = consts.position;
-        obj.observeDist = consts.observeDist;
+        obj.observeDist = inf;
         obj.tankSize = consts.tankSize;
         obj.maxSpeed = consts.maxSpeed;
         obj.fishEatGoal = consts.fishEatGoal;
@@ -50,9 +50,7 @@ classdef Shark < Animal
       sharkPos = [pos(1,:)-obj.position(1);pos(2,:)-obj.position(2)];
         
       % Add imaginary fishes due to periodic boundry
-      allPos = sharkPos(:,mod((0:9*n-1),n)+1); 
-      allPos = [allPos(1,:)+obj.tankSize*(mod(floor((0:9*n-1)/n),3)-1); ...
-                allPos(2,:)+obj.tankSize*(floor((0:9*n-1)/(3*n))-1)];
+      allPos = sharkPos;
 
       dists = arrayfun(@(x,y) norm([x,y]),allPos(1,:),allPos(2,:));
        
@@ -146,18 +144,7 @@ classdef Shark < Animal
       direction = [steps*cos(moveAngle),steps*sin(moveAngle)];
       pp = round([steps*cos(moveAngle),steps*sin(moveAngle)]);
       % Position in tank
-      P = pp + obj.position;
-      
-      for i=1:2
-        if P(i) > obj.tankSize
-          p(i) = P(i) - obj.tankSize;
-        elseif P(i) <= 0
-          p(i) = P(i) + obj.tankSize;
-        else
-          p(i) = P(i);
-        end
-      end
-      pos = p;
+      pos = pp + obj.position;
     end
 
     function [dist, angle] = getNormPolPos(obj,normAngle,pos,normDist);
