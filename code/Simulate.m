@@ -20,9 +20,6 @@ popSize = C.ga.populationSize;
 nrOfGenes = C.ga.nrOfGenes;
 population = rand(popSize, nrOfGenes)*2*weightRange-weightRange;
 
-% Change of some constants
-C.tank.tankSize = 30;
-C.tank.nrOfFish = 30;
 
 ind = population(1,:);
 
@@ -40,6 +37,26 @@ last = ind(startP:end);
 weights{length(weights)+1} = reshape(last,[outputs,length(last)/outputs]);
 
 
-sharktank = Aquarium(C.shark,C.tank,C.fish,weights,C.nn.beta);
-sharktank.run(1)
+
+
+aq = Aquarium(C.shark,C.tank,C.fish,weights,C.nn.beta);
+
+N = length(aq.fishShoal.fishes);
+
+figure(1)
+p.x = zeros(1,N);
+p.y = zeros(1,N);
+for i = 1:N
+    p.x(i) = aq.fishShoal.fishes(i).position(1);
+    p.y(i) = aq.fishShoal.fishes(i).position(2);
+end
+plot(p.x,p.y,'.','markersize',10);
+hold on
+plot(aq.shark.position(1),aq.shark.position(2),'r.','markersize',12)
+axis([-250 250 -250 250])
+hold off
+drawnow
+
+aq.run()
+
 
