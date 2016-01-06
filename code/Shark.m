@@ -133,6 +133,7 @@ classdef Shark < Animal
         end
         obj.hunting = false;
       end
+      
     end
 
     function [pos, direction] = newPosition(obj, velocity, direction, angle)

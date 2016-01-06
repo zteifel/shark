@@ -22,18 +22,18 @@ population = rand(popSize, nrOfGenes)*2*weightRange-weightRange;
 
 ind = population(1,:);
 
-weights = {};
-inputs = C.nn.nrOfInputs+1; % Plus 1 for threshold
-outputs = C.nn.nrOfOutputs;
-startP = 1;
-endP = 0;
-for i=1:C.nn.nrOfHiddenLayers
-    endP = endP + (inputs-(i-1))*(inputs-i);
-    weights{i} = reshape(ind(startP:endP),[inputs-i,inputs-(i-1)]);
-    startP = endP+1;
-end
-last = ind(startP:end);
-weights{length(weights)+1} = reshape(last,[outputs,length(last)/outputs]);
+% weights = {};
+% inputs = C.nn.nrOfInputs+1; % Plus 1 for threshold
+% outputs = C.nn.nrOfOutputs;
+% startP = 1;
+% endP = 0;
+% for i=1:C.nn.nrOfHiddenLayers
+%     endP = endP + (inputs-(i-1))*(inputs-i);
+%     weights{i} = reshape(ind(startP:endP),[inputs-i,inputs-(i-1)]);
+%     startP = endP+1;
+% end
+% last = ind(startP:end);
+% weights{length(weights)+1} = reshape(last,[outputs,length(last)/outputs]);
 
 
 

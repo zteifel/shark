@@ -17,7 +17,7 @@ classdef Aquarium < handle
             % Create fish shoal
             obj.fishShoal = FishShoal(tank_consts.tankSize, tank_consts.nrOfFish,...
                 fish_consts.driftSpeed, fish_consts.maxSpeed, fish_consts.scareDistance,...
-                fish_consts.attractionDistance);
+                fish_consts.attractionDistance, fish_consts.accelerationRate);
         end
         
         function fitness = run(obj)
@@ -27,19 +27,19 @@ classdef Aquarium < handle
                 obj.fishShoal.updateFishes(obj.shark.position);
                 obj.fishShoal.fishes = obj.shark.updatePosition(obj.fishShoal.fishes);
                 
-%                 N = length(obj.fishShoal.fishes);
-%                 p.x = zeros(1,N);
-%                 p.y = zeros(1,N);
-%                 for i = 1:N
-%                     p.x(i) = obj.fishShoal.fishes(i).position(1);
-%                     p.y(i) = obj.fishShoal.fishes(i).position(2);
-%                 end
-%                 plot(p.x,p.y,'.','markersize',10);
-%                 hold on
-%                 plot(obj.shark.position(1),obj.shark.position(2),'r.','markersize',12)
-%                 axis([-100 350 -100 350])
-%                 hold off
-%                 drawnow
+                N = length(obj.fishShoal.fishes);
+                p.x = zeros(1,N);
+                p.y = zeros(1,N);
+                for i = 1:N
+                    p.x(i) = obj.fishShoal.fishes(i).position(1);
+                    p.y(i) = obj.fishShoal.fishes(i).position(2);
+                end
+                plot(p.x,p.y,'.','markersize',10);
+                hold on
+                plot(obj.shark.position(1),obj.shark.position(2),'r.','markersize',12)
+                axis([-100 350 -100 350])
+                hold off
+                drawnow
             end
             distToFish = (obj.shark.distToFish/count)^2;
             fitness = (obj.shark.fishEaten+distToFish)/obj.shark.energy;
