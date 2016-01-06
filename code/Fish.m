@@ -63,7 +63,7 @@ classdef Fish < handle
             predatorDistanceX = predatorPosition(1) - obj.positionReal(1);
             predatorDistanceY = predatorPosition(2) - obj.positionReal(2);
     
-            if (norm([predatorDistanceX predatorDistanceY]) < obj.scareDistance)
+            if (norm([predatorDistanceX predatorDistanceY]) <= obj.scareDistance)
                 
                 obj.velocityReal(1) = obj.velocityReal(1) - ...
                     (predatorPosition(1) - obj.positionReal(1))/2;

@@ -16,8 +16,8 @@ nn:
     nrOfOutputs: 2
 
 tank:
-    tankSize: 100
-    nrOfFish: 30
+    tankSize: 200
+    nrOfFish: 50
 
 shark:
     maxSpeed: 5
@@ -30,6 +30,6 @@ shark:
 
 fish:
     driftSpeed: 2
-    maxSpeed: 3
-    scareDistance: 10
-    attractionDistance: 15
+    maxSpeed: 4
+    scareDistance: 0
+    attractionDistance: 30

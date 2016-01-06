@@ -1,5 +1,4 @@
 close all
-clear all
 
 % Andreas too stupid to get proper random weight matrix another way.
 yaml_path = 'constants.yml';
@@ -53,7 +52,7 @@ end
 plot(p.x,p.y,'.','markersize',10);
 hold on
 plot(aq.shark.position(1),aq.shark.position(2),'r.','markersize',12)
-axis([-250 250 -250 250])
+axis([-100 350 -100 350])
 hold off
 drawnow
 
