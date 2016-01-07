@@ -25,7 +25,7 @@ shark:
     fishEatGoal: 50
     moveAngle: 0.25 # (times pi)
     closeObserve: 1 # nr of fish it can observe close by
-    observeDist: 40
+    observeDist: 80
     brain: 'ai' # [walnut,ai]
 
 fish:

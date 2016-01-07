@@ -3,6 +3,7 @@ classdef SharkTraining
   properties
     save_path               % Folder name to save output to
     save_data = true;       % If false, no data will be saved
+    visTraining = false;
     stop = false;
     C                       % Struct to hold constants loaded from yaml file
     population
@@ -24,6 +25,8 @@ classdef SharkTraining
             yaml_path = varargin{i+1};
         case 'NoSaveData'
             obj.save_data = false;
+        case 'VisualizeTraining'
+            obj.visTraining = true;
         end
       end
       if obj.save_data
@@ -54,10 +57,18 @@ classdef SharkTraining
         disp(sprintf('============== Gen %d ==============',count));
         % Evaluate all chromosomes
         fitness = zeros(obj.C.ga.populationSize,1);
-        parfor i=1: obj.C.ga.populationSize
-          fitness(i) = obj.evalChromosome(obj.population(i,:));
-          disp(sprintf( ...
-            'Ind %i(%i), Fitness: %i',i,obj.C.ga.populationSize,fitness(i)));
+        if obj.visTraining
+          for i=1: obj.C.ga.populationSize
+            fitness(i) = obj.evalChromosome(obj.population(i,:));
+            disp(sprintf( ...
+              'Ind %i(%i), Fitness: %i',i,obj.C.ga.populationSize,fitness(i)));
+          end
+        else 
+          parfor i=1: obj.C.ga.populationSize
+            fitness(i) = obj.evalChromosome(obj.population(i,:));
+            disp(sprintf( ...
+              'Ind %i(%i), Fitness: %i',i,obj.C.ga.populationSize,fitness(i)));
+          end
         end
 
         tempPopulation = obj.population;
@@ -168,7 +179,8 @@ classdef SharkTraining
     function fitness = evalChromosome(obj,individual);
       weights = obj.decodeChromosome(individual);
       sharktank = ...
-        Aquarium(obj.C.shark,obj.C.tank,obj.C.fish,weights,obj.C.nn.beta);
+        Aquarium(obj.C.shark,obj.C.tank,obj.C.fish, ...
+                 weights,obj.C.nn.beta,obj.visTraining);
       fitness = sharktank.run();
       % Uncomment if testing without Aquarium
       % nrOfFishEaten = ...

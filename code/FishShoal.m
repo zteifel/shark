@@ -1,4 +1,4 @@
-classdef FishShoal
+classdef FishShoal < handle
     
     properties
         
@@ -11,13 +11,12 @@ classdef FishShoal
         attractionDistance;
         r1;
         r2;
+        averagePosition;
         
     end
     
-    
-    
+
     properties (Constant = true)
-        
         
         w = 30; %dead angle omega
         frontOffset = 0; % KEEP AT 0!
@@ -48,10 +47,14 @@ classdef FishShoal
                 fish = Fish(position,velocity,tankSize,scareDistance,maxSpeed);
                 obj.fishes = [obj.fishes fish];
             end
+            positions = zeros(length(obj.fishes),2);
+            for i = 1:length(obj.fishes)
+                positions(i,:) = obj.fishes(i).positionReal;
+            end
+            obj.averagePosition = mean(positions);
         end
         
         function updateFishes(obj,predatorPosition)
-            
             
             N = length(obj.fishes);
             
@@ -65,7 +68,7 @@ classdef FishShoal
             for i = 1:length(obj.fishes)
                 positions(i,:) = obj.fishes(i).positionReal;
             end
-            averagePosition = mean(positions);
+            obj.averagePosition = mean(positions);
             %calculate distances between fish
             %--------------------------------------------------------------------------
             
@@ -120,9 +123,9 @@ classdef FishShoal
             for i = 1:N
                 
                 % Far from center
-                if (norm(averagePosition - obj.fishes(i).positionReal) > obj.attractionDistance)
-                    theta_new = rad2deg(atan2(averagePosition(2) - obj.fishes(i).positionReal(2),...
-                        averagePosition(1) - obj.fishes(i).positionReal(1)));
+                if (norm(obj.averagePosition - obj.fishes(i).positionReal) > obj.attractionDistance)
+                    theta_new = rad2deg(atan2(obj.averagePosition(2) - obj.fishes(i).positionReal(2),...
+                        obj.averagePosition(1) - obj.fishes(i).positionReal(1)));
                     velocityReal = obj.driftSpeed*[cosd(theta_new) sind(theta_new)];
                 else
                     

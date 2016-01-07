@@ -41,39 +41,39 @@ classdef Shark < Animal
 
     function fish = updatePosition(obj, fish)
 
-      n = size(fish,2); 
-      % Get Positions from all fish 
+      n = size(fish,2);
+      % Get Positions from all fish
       pos = [arrayfun(@(x) x.position(1),fish); ...
              arrayfun(@(x) x.position(2),fish)];
 
       % Transform in to shark coordinates
-      sharkPos = [pos(1,:)-obj.position(1);pos(2,:)-obj.position(2)];
-        
-      % Add imaginary fishes due to periodic boundry
-      allPos = sharkPos;
+      allPos = [pos(1,:)-obj.position(1);pos(2,:)-obj.position(2)];
 
+      % Compute distancs to shark
       dists = arrayfun(@(x,y) norm([x,y]),allPos(1,:),allPos(2,:));
-       
+
       % sort based on dist to shark
-      [dists, iSort] = sort(dists); 
+      [dists, iSort] = sort(dists);
       allPos = allPos(:,iSort);
 
       % remove those further away then observe distans
-      
-      iDists = dists <= obj.observeDist; 
+      iDists = dists <= obj.observeDist;
 
-      if sum(iDists) == 0
+      if sum(iDists) == 0 % Shark has lost contact with fish => break
         brainInputs = [0,0,0,0.5,0.5,0.5];
         drawInputs.fc = [0,0];
         drawInputs.bc = [0,0];
         drawInputs.cc = [0,0];
         drawInputs.pos = obj.position;
-      else 
+        obj.hunting = false;
+        obj.energy = obj.maxEnergy;
+        return
+      else
         dists = dists(iDists);
         allPos = allPos(:,iDists);
-        angles = obj.getAngles(allPos); 
+        angles = obj.getAngles(allPos);
 
-        % Fish in front 
+        % Fish in front
         iFront = 3*pi/2<angles | angles<pi/2;
         if sum(iFront) == 0 || isempty(iFront)
           fc = [0,0]; fd = 0; fa = 0.5;
@@ -87,7 +87,7 @@ classdef Shark < Animal
           bc = [0,0]; bd = 0; ba = 0.5;
         else
           bc = sum(allPos(:,iBack),2)/size(allPos(:,iBack),2);
-          [bd,ba] = obj.getNormPolPos(-3*pi/2,bc,obj.observeDist); 
+          [bd,ba] = obj.getNormPolPos(-3*pi/2,bc,obj.observeDist);
         end
         % Fish close
         cc = ...
@@ -98,7 +98,7 @@ classdef Shark < Animal
           [cd,ca] = obj.getNormPolPos(obj.moveAngle,cc,obj.maxSpeed);
         end
         % Create drawInputs
-        drawInputs.fc = fc; drawInputs.bc = bc; 
+        drawInputs.fc = fc; drawInputs.bc = bc;
         drawInputs.cc = cc; drawInputs.pos = obj.position;
         % Create brain inputs
         brainInputs = [fd,bd,cd,fa,ba,ca];
