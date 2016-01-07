@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/MacPorts 2015_6) (preloaded format=pdflatex 2015.11.16)  2 JAN 2016 16:32
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/MacPorts 2015_6) (preloaded format=pdflatex 2015.11.16)  6 JAN 2016 23:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -398,7 +398,7 @@ Package caption3 Info: TeX engine: e-TeX on input line 57.
 LaTeX Warning: Unused global option(s):
     [A4].
 
-No file report.aux.
+(./report.aux)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
@@ -413,7 +413,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
 LaTeX Font Info:    ... okay on input line 20.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
 LaTeX Font Info:    ... okay on input line 20.
-(/opt/local/share/texmf-texlive/tex/context/base/supp-pdf.mkii
+ (/opt/local/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count105
 \scratchdimen=\dimen123
@@ -490,25 +490,30 @@ LaTeX Font Info:    Try loading font information for U+lasy on input line 23.
 
 (/opt/local/share/texmf-texlive/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
-) [1
+)
+Underfull \hbox (badness 10000) in paragraph at lines 30--33
+
+ []
+
+[1
 Non-PDF special ignored!
 
 {/opt/local/var/db/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 3872 strings out of 494185
- 55507 string characters out of 6156887
- 114404 words of memory out of 5000000
+ 3874 strings out of 494185
+ 55529 string characters out of 6156887
+ 116402 words of memory out of 5000000
  7123 multiletter control sequences out of 15000+600000
  11129 words of font info for 43 fonts, out of 8000000 for 9000
  430 hyphenation exceptions out of 8191
- 42i,7n,40p,944b,200s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,7n,40p,1004b,200s stack positions out of 5000i,500n,10000p,200000b,80000s
 <
 /opt/local/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></opt/
 local/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></opt/local
 /share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></opt/local/share
 /texmf-texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></opt/local/share/texmf
 -texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on report.pdf (1 page, 61076 bytes).
+Output written on report.pdf (1 page, 61269 bytes).
 PDF statistics:
  28 PDF objects out of 1000 (max. 8388607)
  19 compressed objects within 1 object stream
