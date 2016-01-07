@@ -7,7 +7,6 @@ classdef Shark < Animal
     tankSize
     brain
     maxSpeed
-    fishEatGoal
     energy = 0;
     maxEnergy
     moveAngle
@@ -20,10 +19,9 @@ classdef Shark < Animal
   methods
     function obj = Shark(consts,weights,beta);
         obj.position = consts.position;
-        obj.observeDist = inf;
+        obj.observeDist = consts.observeDist;
         obj.tankSize = consts.tankSize;
         obj.maxSpeed = consts.maxSpeed;
-        obj.fishEatGoal = consts.fishEatGoal;
         obj.maxEnergy = consts.maxEnergy;
         obj.moveAngle = consts.moveAngle*pi;
         obj.closeObserve = consts.closeObserve;
@@ -127,10 +125,7 @@ classdef Shark < Animal
       end
 
       obj.energy = obj.energy + ( floor(normSpeed*obj.maxSpeed)+1 );
-      if obj.fishEaten >= obj.fishEatGoal || obj.energy >= obj.maxEnergy
-        if obj.energy >= obj.maxEnergy
-          obj.energy = obj.maxEnergy;
-        end
+      if obj.energy >= obj.maxEnergy
         obj.hunting = false;
       end
     end

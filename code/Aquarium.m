@@ -38,7 +38,8 @@ classdef Aquarium < handle
           end
       end
       distToFish = (obj.shark.distToFish/count)^2;
-      fitness = (obj.shark.fishEaten+distToFish)/obj.shark.energy;
+      distToFish
+      fitness = (obj.shark.fishEaten+distToFish)/obj.shark.maxEnergy;
     end
 
     function fig = initFig(obj)
