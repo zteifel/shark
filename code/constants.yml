@@ -29,7 +29,7 @@ shark:
     brain: 'ai' # [walnut,ai]
 
 fish:
-    driftSpeed: 2
-    maxSpeed: 3
+    driftSpeed: 3
+    maxSpeed: 4
     scareDistance: 10
-    attractionDistance: 15
+    attractionDistance: 20
