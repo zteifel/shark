@@ -8,8 +8,6 @@ classdef SharkTraining
     C                       % Struct to hold constants loaded from yaml file
     population
     fitness_fig
-    % Test solution
-    goal
   end
 
   methods
@@ -27,18 +25,20 @@ classdef SharkTraining
             obj.save_data = false;
         case 'VisualizeTraining'
             obj.visTraining = true;
+        case 'NoTraining'
+            noTraining = true;
         end
       end
       if obj.save_data
         obj.save_path = obj.savePath(folder_name);
       end
       obj.C = obj.importConstantsFromFile(yaml_path);
-      obj.fitness_fig = obj.initFitnessFigure();
-
-      % Start algorithm
-      obj.population = obj.initializePopulation();
-      obj.goal = rand(1,obj.C.ga.nrOfGenes);
-      obj.startTraining();
+      if not(exist('noTraining','var'))
+        obj.fitness_fig = obj.initFitnessFigure();
+        % Start training algorithm
+        obj.population = obj.initializePopulation();
+        obj.startTraining();
+      end
     end
 
     %%%%%% GA methods %%%%%%%%%%%
@@ -61,13 +61,13 @@ classdef SharkTraining
           for i=1: obj.C.ga.populationSize
             fitness(i) = obj.evalChromosome(obj.population(i,:));
             disp(sprintf( ...
-              'Ind %i(%i), Fitness: %i',i,obj.C.ga.populationSize,fitness(i)));
+              'Ind %i(%i), Fitness: %.3f',i,obj.C.ga.populationSize,fitness(i)));
           end
         else 
           parfor i=1: obj.C.ga.populationSize
             fitness(i) = obj.evalChromosome(obj.population(i,:));
             disp(sprintf( ...
-              'Ind %i(%i), Fitness: %i',i,obj.C.ga.populationSize,fitness(i)));
+              'Ind %i(%i), Fitness: %.3f',i,obj.C.ga.populationSize,fitness(i)));
           end
         end
 
@@ -182,10 +182,6 @@ classdef SharkTraining
         Aquarium(obj.C.shark,obj.C.tank,obj.C.fish, ...
                  weights,obj.C.nn.beta,obj.visTraining);
       fitness = sharktank.run();
-      % Uncomment if testing without Aquarium
-      % nrOfFishEaten = ...
-      %  1-sum(abs(obj.goal-individual))/ ...
-      %     (2*obj.C.nn.weightRange*obj.C.ga.nrOfGenes);
     end
 
     function population = initializePopulation(obj);
@@ -214,7 +210,7 @@ classdef SharkTraining
                 'Callback', @obj.stopTraining)
 
       xlabel('Generation');
-      ylabel('Fish caught');
+      ylabel('Fitness');
       title('Evolution of best in generation shark');
       h = guidata(fig);
       h.stoptraining = false;

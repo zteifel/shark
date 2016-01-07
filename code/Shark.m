@@ -30,10 +30,10 @@ classdef Shark < Animal
             dir = randi(3,1,2)-2;
         end
         obj.direction = dir;
-        if length(weights) == 0
-            obj.brain = WalnutBrain(0.5,0.5);
+        if length(weights) == 0 || isempty(weights)
+            obj.brain = AIBrain();
         else
-            obj.brain = AIBrain(weights,beta);
+            obj.brain = ANNBrain(weights,beta);
         end
     end
 
