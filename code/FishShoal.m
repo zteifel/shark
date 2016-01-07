@@ -27,7 +27,7 @@ classdef FishShoal < handle
     methods
         
         function obj = FishShoal(tankSize, shoalSize, driftSpeed, maxSpeed, ...
-                scareDistance, attractionDistance)
+                scareDistance, attractionDistance, accelerationRate)
             
             obj.T = tankSize;
             obj.driftSpeed = driftSpeed;
@@ -44,7 +44,8 @@ classdef FishShoal < handle
                 r = rand;
                 velocity = obj.driftSpeed*[cos(2*pi*r) sin(2*pi*r)];
                 position = [m+(n-m)*rand m+(n-m)*rand];
-                fish = Fish(position,velocity,tankSize,scareDistance,maxSpeed);
+                fish = Fish(position,velocity,tankSize,scareDistance,...
+                    maxSpeed,accelerationRate);
                 obj.fishes = [obj.fishes fish];
             end
             positions = zeros(length(obj.fishes),2);

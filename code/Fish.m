@@ -9,12 +9,14 @@ classdef Fish < handle
         maxSpeed = 3;
         positionReal;
         velocityReal;
+        accelerationRate;
         
     end
     
     methods
         
-        function obj = Fish(position,velocity,tankSize,scareDistance,maxSpeed)
+        function obj = Fish(position,velocity,tankSize,scareDistance,...
+                maxSpeed,accelerationRate)
             if (nargin > 0)
                 obj.position = round(position);
                 if (obj.position(1) == 0)
@@ -29,6 +31,7 @@ classdef Fish < handle
                 obj.maxSpeed = maxSpeed;
                 obj.positionReal = position;
                 obj.velocityReal = velocity;
+                obj.accelerationRate = accelerationRate;
             end
         end
         
@@ -66,10 +69,12 @@ classdef Fish < handle
             if (norm([predatorDistanceX predatorDistanceY]) < obj.scareDistance)
                 
                 obj.velocityReal(1) = obj.velocityReal(1) - ...
-                    (predatorPosition(1) - obj.positionReal(1))/2;
+                    (predatorPosition(1) - obj.positionReal(1))*...
+                    obj.accelerationRate;
                 
                 obj.velocityReal(2) = obj.velocityReal(2) - ...
-                    (predatorPosition(2) - obj.positionReal(2))/2;
+                    (predatorPosition(2) - obj.positionReal(2))*...
+                    obj.accelerationRate;
                 
             end
         end

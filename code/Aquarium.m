@@ -20,7 +20,7 @@ classdef Aquarium < handle
       % Create fish shoal
       obj.fishShoal = FishShoal(tank_consts.tankSize, tank_consts.nrOfFish,...
         fish_consts.driftSpeed, fish_consts.maxSpeed, fish_consts.scareDistance,...
-        fish_consts.attractionDistance);
+        fish_consts.attractionDistance, fish_consts.accelerationRate);
       obj.visTraining = visTraining;
       if visTraining
         obj.fig = obj.initFig(); 

@@ -33,3 +33,4 @@ fish:
     maxSpeed: 4
     scareDistance: 10
     attractionDistance: 20
+    accelerationRate: 0.5
