@@ -13,6 +13,7 @@
 \addtolength{\evensidemargin}{-1.2cm}
 \addtolength{\oddsidemargin}{-1.2cm}
 \addtolength{\textwidth}{2cm}
+
 \title{Usage of neural networks to model marine predatory behavior}
 \author{Henrik Adolfsson, Andreas Magnusson, Kristian Onsj\"o}
 \date{January 10 2016}
@@ -31,7 +32,24 @@ The area of science that is complex systems have grown rapidly over the past yea
 \\
 There has been quite a significant amount of research made on the swarming phenomena regarding predator avoidance and many algorithms to model this behavior exists. This has however mostly been done with a predator being programmed to catch prey in a certain way but the predator in question has through evolution as well has the prey has learned avoidance, learned how to overcome the swarming benefits to be able to catch prey. The goal with this project is to investigate if it is possible to by using an artificial neural network, model and train a predator to catch the prey out of a given swarming model.
 
+\newpage
+
 \section{Method}
+\subsection{The fish shoal}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.45\textwidth]{swarmfig.png}
+\caption{\label{fig:swarm} Fish shoal model.}
+\end{figure}
+
+The swarming model used is based on the two models found in the references \cite{javafish} and \cite{matlabfish}. It follows the same rules as the basic swarming model, namely repulsion, alignment and attraction. Each of these rules applies at a certain distance range from the fish which can be seen in figure \ref{fig:swarm}. If another fish enters the zone of repulsion they will tend to repel each other and not surprisingly if they are within the attraction distance, they will tend to move towards each other. In the zone of alignment they tend to align themselves so that they will move in the same direction as the other fishes in that zone. Behind the fish there is also a dead zone where no interaction occur (most animals can not see things behind themselves). To further improve the behavior of the swarm, there is also an addition to the algorithm called distance priority \cite{matlabfish}. It makes the fish tend to align itself to the average direction of a set number of its closest neighbors, regardless of which zone they are in.\\
+\\
+The way the fishes in this model avoids the shark is quite simple. A "scare" distance is set for the fishes and should the predator be within this distance, the fish will completely ignore the swarming rules and update the velocity according to
+\begin{equation}
+\vec{v}_f \rightarrow \vec{v}_f - (\vec{x}_s - \vec{x}_f)a
+\end{equation}
+where $\vec{v}_f$ is the velocity of the fish, $\vec{x}_s$ the position of the shark, $\vec{x}_f$ the position of the fish and $a$ is a constant called acceleration rate, which decides how fast the fish will be able to reach its max speed (note that the time step is excluded since it will always be set to 1).
 
 \section{Result}
 
@@ -39,7 +57,12 @@ There has been quite a significant amount of research made on the swarming pheno
 
 
 
+\begin{thebibliography}{99}
+\bibitem{javafish} boid java
 
+\bibitem{matlabfish} boid matlab
+
+\end{thebibliography}
 
 \end{document}
 
