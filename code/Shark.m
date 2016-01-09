@@ -17,9 +17,6 @@ classdef Shark < Animal
 
   methods
     function obj = Shark(consts,weights,beta);
-        if not(isreal(consts.position))
-          disp('NOT REAL IN INIT')
-        end
         obj.position = consts.position;
         obj.observeDist = consts.observeDist;
         obj.maxSpeed = consts.maxSpeed;
@@ -39,11 +36,6 @@ classdef Shark < Animal
     end
 
     function fish = updatePosition(obj, fish)
-
-      if not(isreal(obj.position))
-        disp('position not real')
-        obj.position
-      end
 
       % Get Positions from all fish
       pos = [arrayfun(@(x) x.position(1),fish); ...
@@ -115,10 +107,7 @@ classdef Shark < Animal
       [normSpeed, normDir] = obj.brain.getMovement(brainInputs');
 
       [newPos, newDir] = obj.newPosition(normSpeed,normDir,obj.moveAngle);
-      if not(isreal(newPos))
-        brainInputs
-        disp('pos is not real!')
-      end
+
       obj.position = newPos;
       obj.direction = newDir;
 
