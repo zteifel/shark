@@ -1,4 +1,4 @@
-function EvalShark(varargin)
+function shark = EvalShark(varargin)
   for i=1:length(varargin)
     switch varargin{i}
       case 'DataDir'
@@ -35,20 +35,25 @@ function EvalShark(varargin)
     disp(sprintf('Loading weights from %s...',weights_file));
   end
   constant_file = fullfile(folder_name, 'constants.yml');
- 
+
   % Create SharkTraining
-  st = SharkTraining('NoSaveData','NoTraining');
+  st = SharkTraining('NoSaveData','NoTraining','YamlPath',constant_file);
   if exist('maxEnergy','var')
     st.C.shark.maxEnergy = maxEnergy;
   end
 
-  fitness = zeros(nrOfTrials,2); 
+  fitness = zeros(nrOfTrials,2);
+  % disp('Evaluating ANN shark...');
+  % for i=1:nrOfTrials
+  %   ANNtank = Aquarium(st.C.shark,st.C.tank,st.C.fish,weights,st.C.nn.beta,true);
+  %   fitness(i,1) = ANNtank.run();
+  % end
+  disp('Evaluating AI shark for comparison...');
   for i=1:nrOfTrials
-    ANNtank = Aquarium(st.C.shark,st.C.tank,st.C.fish,weights,st.C.nn.beta,true);
     AItank = Aquarium(st.C.shark,st.C.tank,st.C.fish,[],[],true);
-    fitness(i,1) = ANNtank.run(); 
-    fitness(i,2) = AItank.run()
+    fitness(i,2) = AItank.run();
   end
+
   if nrOfTrials > 1
     meanFitness = mean(fitness);
     varFitness = var(fitness);

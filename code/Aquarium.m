@@ -12,18 +12,23 @@ classdef Aquarium < handle
     function obj = Aquarium(...
             shark_consts, tank_consts, fish_consts, weights, beta, visTraining)
       obj.tankSize = tank_consts.tankSize;
-      % Create shark
-      shark_consts.position = ...
-          randi(round(0.25*obj.tankSize),1,2) + round(0.1*obj.tankSize);
-      shark_consts.tankSize = tank_consts.tankSize;
-      obj.shark = Shark(shark_consts, weights, beta);
       % Create fish shoal
       obj.fishShoal = FishShoal(tank_consts.tankSize, tank_consts.nrOfFish,...
         fish_consts.driftSpeed, fish_consts.maxSpeed, fish_consts.scareDistance,...
         fish_consts.attractionDistance, fish_consts.accelerationRate);
+      % Create shark
+      dist = ...
+        randi(round(0.5*shark_consts.observeDist))+0.25*shark_consts.observeDist;
+      c = obj.fishShoal.averagePosition;
+      dx = (1-2*(randi(2)-1))*(randi(floor(dist)+1)-1);
+      dy = (1-2*(randi(2)-1))*round(sqrt(dist^2-dx^2));
+      x = round(c(1)+dx);
+      y = round(c(2)+dy);
+      shark_consts.position = [x y];
+      obj.shark = Shark(shark_consts, weights, beta);
       obj.visTraining = visTraining;
       if visTraining
-        obj.fig = obj.initFig(); 
+        obj.fig = obj.initFig();
       end
     end
 
@@ -38,7 +43,7 @@ classdef Aquarium < handle
           end
       end
       distToFish = (obj.shark.distToFish/count)^2;
-      fitness = (obj.shark.fishEaten+distToFish)/obj.shark.maxEnergy;
+      fitness = (obj.shark.fishEaten+distToFish);
     end
 
     function fig = initFig(obj)
@@ -47,7 +52,7 @@ classdef Aquarium < handle
                  arrayfun(@(x) x.position(2),obj.fishShoal.fishes)];
       fishX = obj.fishShoal.fishes(1).position(1);
       fishY = obj.fishShoal.fishes(1).position(2);
-       
+
       sc = plot(fishpos(1,:),fishpos(2,:),'.'); hold on;
 
       qd = quiver(obj.shark.position(1),obj.shark.position(2),0,0,0, 'b');
@@ -74,6 +79,10 @@ classdef Aquarium < handle
                  arrayfun(@(x) x.position(2),obj.fishShoal.fishes)];
       inputs = obj.shark.drawInputs;
       h = guidata(obj.fig);
+
+      if not(isreal(inputs.pos))
+        inputs
+      end
 
       set(h.sc,'XData',fishpos(1,:), ...
                'YData',fishpos(2,:));

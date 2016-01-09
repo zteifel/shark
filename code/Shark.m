@@ -4,7 +4,6 @@ classdef Shark < Animal
     direction
     observeDist
     distToFish = 0;
-    tankSize
     brain
     maxSpeed
     energy = 0;
@@ -18,9 +17,11 @@ classdef Shark < Animal
 
   methods
     function obj = Shark(consts,weights,beta);
+        if not(isreal(consts.position))
+          disp('NOT REAL IN INIT')
+        end
         obj.position = consts.position;
         obj.observeDist = consts.observeDist;
-        obj.tankSize = consts.tankSize;
         obj.maxSpeed = consts.maxSpeed;
         obj.maxEnergy = consts.maxEnergy;
         obj.moveAngle = consts.moveAngle*pi;
@@ -31,7 +32,7 @@ classdef Shark < Animal
         end
         obj.direction = dir;
         if length(weights) == 0 || isempty(weights)
-            obj.brain = AIBrain();
+            obj.brain = AIBrain(obj.moveAngle);
         else
             obj.brain = ANNBrain(weights,beta);
         end
@@ -39,7 +40,11 @@ classdef Shark < Animal
 
     function fish = updatePosition(obj, fish)
 
-      n = size(fish,2);
+      if not(isreal(obj.position))
+        disp('position not real')
+        obj.position
+      end
+
       % Get Positions from all fish
       pos = [arrayfun(@(x) x.position(1),fish); ...
              arrayfun(@(x) x.position(2),fish)];
@@ -63,8 +68,11 @@ classdef Shark < Animal
         drawInputs.bc = [0,0];
         drawInputs.cc = [0,0];
         drawInputs.pos = obj.position;
+        drawInputs.dir = obj.direction;
         obj.hunting = false;
+        obj.drawInputs = drawInputs;
         obj.energy = obj.maxEnergy;
+        disp('shark lost contact')
         return
       else
         dists = dists(iDists);
@@ -85,7 +93,7 @@ classdef Shark < Animal
           bc = [0,0]; bd = 0; ba = 0.5;
         else
           bc = sum(allPos(:,iBack),2)/size(allPos(:,iBack),2);
-          [bd,ba] = obj.getNormPolPos(-3*pi/2,bc,obj.observeDist);
+          [bd,ba] = obj.getNormPolPos(-pi/2,bc,obj.observeDist);
         end
         % Fish close
         cc = ...
@@ -107,6 +115,10 @@ classdef Shark < Animal
       [normSpeed, normDir] = obj.brain.getMovement(brainInputs');
 
       [newPos, newDir] = obj.newPosition(normSpeed,normDir,obj.moveAngle);
+      if not(isreal(newPos))
+        brainInputs
+        disp('pos is not real!')
+      end
       obj.position = newPos;
       obj.direction = newDir;
 
@@ -145,14 +157,18 @@ classdef Shark < Animal
     function [dist, angle] = getNormPolPos(obj,normAngle,pos,normDist);
       dist = 1-norm(pos)/normDist;
       d = obj.direction;
-      angle = mod(atan2(pos(2),pos(1))-atan2(d(2),d(1))+2*pi,2*pi) + normAngle;
-      angle = angle/(2*normAngle);
+      aShark = mod(atan2(d(2),d(1))+2*pi-normAngle,2*pi);
+      aFish = mod(atan2(pos(2),pos(1))+2*pi,2*pi);
+      if round(aShark,5) > round(aFish,5)
+        aShark = -(2*pi-aShark);
+      end
+      angle = (aFish-aShark)/(2*abs(normAngle));
     end
 
     function angles = getAngles(obj, fishPos)
         d = obj.direction;
         angles = arrayfun(@(x,y) ...
-          mod(atan2(y,x)-atan2(d(2),d(1))+2*pi,2*pi),fishPos(1,:),fishPos(2,:)); 
+          mod(atan2(y,x)-atan2(d(2),d(1))+2*pi,2*pi),fishPos(1,:),fishPos(2,:));
     end
 
   end

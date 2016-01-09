@@ -1,7 +1,7 @@
 ga:
     tournamentSize: 5
     tournamentProb: 0.75
-    populationSize: 44 # Multipel of 4 to use parallel correct.
+    populationSize: 48 # Multipel of 4 to use parallel correct.
     crossProb: 0.65
     eliteInserts: 1
     mutateProb: 1  # constant to multiply with 1/nrOfGens;
@@ -22,11 +22,9 @@ tank:
 shark:
     maxSpeed: 5
     maxEnergy: 500
-    fishEatGoal: 50
     moveAngle: 0.25 # (times pi)
     closeObserve: 1 # nr of fish it can observe close by
-    observeDist: 50
-    brain: 'ai' # [walnut,ai]
+    observeDist: 80
 
 fish:
     driftSpeed: 3
