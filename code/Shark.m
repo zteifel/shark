@@ -64,7 +64,6 @@ classdef Shark < Animal
         obj.hunting = false;
         obj.drawInputs = drawInputs;
         obj.energy = obj.maxEnergy;
-        disp('shark lost contact')
         return
       else
         dists = dists(iDists);
