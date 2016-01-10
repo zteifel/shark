@@ -1,8 +1,3 @@
-The model is found to show promising results in developing an evolving predatory
-behavior in the corresponding manner to many evolving prey behavior
-simulations. The shark showed great improvement in hunting technique when
-allowed to evolve via an artificial neural network, so in the matter of the question of whether it is possible to model a predator this way, the answer is yes. Is it better than a simple programmed AI?\\
-\\
 The comparison of the neural network and programmed AI shows that the
 programmed AI yields a better shark behavior pretty much all the time. By making interactive plots and looking at an ANN shark and an AI shark hunting fish, one can see that the behaviors differs quite significantly. The AI can overcome the problem of having limited turning radius compared to speed and this proves to be a key part in catching fish more efficiently. The ANN struggles on this part and it seems as if the behavior pattern indicates the neural network might not be sufficiently large to be able to learn movements that has such big and quick turns. Further investigation of this was done by training the ANN on two very similar parameter settings where the ones of importance are the shark max speed put to 5, the fish drift speed at 3 and the fish max speed at 4 and then 5. With fish max speed 4 one can see that the ANN tends towards the same behavior as the AI but moving slower, the slow speed however making it possible to make the narrow turns. With speed max speed of 5 the ANN moves at max speed all the time just making circles of strikes repeatedly and can not make the narrow turns anymore. This indicates even more what is stated above, the ANN is too "slow" i.e. the brain is to small.\\
 \\
@@ -12,7 +7,4 @@ Other things that was equally important to consider was the parameters and struc
 \\
 If more time would have been given, our next step would be to make more runs to compare things such as will 5 runs with 1000 max energy give the same result as one run on 5000 max energy. From there what seems like a good next step is to increase the number of layers in the ANN to see what effect it has. The energy of the shark would be considered more adding more and more detail, such as turning would make it lose energy faster and so on.\\
 \\
-The key factor that promotes the usage of artificial neural networks in
-predatory behavior development is using this in combination with an
-evolutionary prey behavior in order to model a natural behavioral evolution
-between predator and prey.
+We managed to make a model and train a shark to catch fish so the question of whether it is possible to do this is answered. As discussed there are however many more things that can be done and one might actually be able to train a network advanced enough to perform better than the AI.
