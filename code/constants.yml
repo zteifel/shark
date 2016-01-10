@@ -21,14 +21,14 @@ tank:
 
 shark:
     maxSpeed: 5
-    maxEnergy: 5000
+    maxEnergy: 2000
     moveAngle: 0.25 # (times pi)
     closeObserve: 1 # nr of fish it can observe close by
     observeDist: 80
 
 fish:
     driftSpeed: 3
-    maxSpeed: 5
+    maxSpeed: 4
     scareDistance: 10
     attractionDistance: 20
     accelerationRate: 0.5
