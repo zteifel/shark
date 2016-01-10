@@ -28,7 +28,7 @@ shark:
 
 fish:
     driftSpeed: 3
-    maxSpeed: 4
+    maxSpeed: 5
     scareDistance: 10
     attractionDistance: 20
     accelerationRate: 0.5
