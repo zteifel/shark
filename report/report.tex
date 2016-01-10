@@ -11,28 +11,39 @@
 \usepackage{amssymb}
 \usepackage{graphics, setspace}
 \usepackage{hyperref}
+\usepackage{fancyhdr}
 \usepackage[rflt]{floatflt}
 \usepackage{latexsym}
-\addtolength{\topmargin}{-1.9cm}
-\addtolength{\textheight}{5.5cm}
-\addtolength{\evensidemargin}{-1.2cm}
-\addtolength{\oddsidemargin}{-1.2cm}
-\addtolength{\textwidth}{2cm}
+% \addtolength{\topmargin}{-1.9cm}
+% \addtolength{\textheight}{5.5cm}
+% \addtolength{\evensidemargin}{-1.2cm}
+% \addtolength{\oddsidemargin}{-1.2cm}
+% \addtolength{\textwidth}{2cm}
+ 
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Usage of neural networks to model marine predatory behavior}
+\cfoot{Page \thepage}
 
 \title{Usage of neural networks to model marine predatory behavior}
 \author{Henrik Adolfsson, Andreas Magnusson, Kristian Onsj\"o}
 \date{January 10 2016}
 
 \begin{document}
-\parindent=0cm
 
 \maketitle
+\thispagestyle{empty}
 
 \begin{abstract}
 \input{abstract}
 \end{abstract}
 \clearpage
 
+\tableofcontents
+\thispagestyle{empty}
+\clearpage
+
+\setcounter{page}{1}
 \section{Introduction}
 \input{introduction}
 
