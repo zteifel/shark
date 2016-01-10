@@ -8,7 +8,9 @@ The movement of the fish and shark is not constrained by any structure or grid. 
 
 The shark and fish shoal positions are updated asynchronously, but the fish in the shoal is updated synchronously. If the shark moves to the position of a fish, the fish is considered eaten by the shark and is as a result removed from the shoal.
 
-Now we will proceed to the more detailed descriptions of the fish and shark model.
+To compare if the the shark we accure from the evolutionare based training is succsesfull we compare it to a shark that uses a more straight forward approached.
+
+Now we will proceed to the more detailed descriptions of the fish and shark models.
 
 \subsection{The fish shoal}
 
@@ -34,7 +36,49 @@ The shark has many senses it can use to detect prey, even on large distances usi
 
 Even though the shark is a very agile predator it can not turn in full speed on the spot, we have therefore constrained the sharks turning angle so that it can only turn $\pi/4$ in each time step. This means that a shark moving at greater speeds will need a larger area for turning.
 
-\subsubsection{Evolution of the artificial neural network of the shark}
-gt
+The parameters of the shark are:
+\begin{itemize}
+\item observe distance
+\item max step size
+\item energy reserve
+\end{itemize}
 
-The shark is a predator and as such its success in hunting can be measured by the amount of energy spent on the hunt in regards to how much energy it could consume from the prey caught. 
+\subsubsection{The brain -- artificial neural network}
+\begin{figure}
+\centering
+\includegraphics[width=.7\textwidth]{figs/ann_structure.png}
+\caption{\label{fig:ann}}
+\end{figure}
+
+Our shark behavior is controlled by an Artificial neural network, ANN. The inputs to the network as can be seen in Figure \ref{fig:ann} is the center of the fish shoal in front and back as well as the position of the closest fish within the sharks attack area (the sector in front of the shark with angle $\frac{\pi}{2}$ up to the sharks maximum movement distance). The positions are given to the network in polar coordinates relative to the sharks position and direction, normalized between zero and unity. The distances are 0 when the position is at the furthers position and 1 at the same position as the shark. The angles are 0 when on the right edge of the sector and 1 when on the left edge of the sector. When in front of the shark the angle is 0.5.
+
+The output from the network is also given in normalized polar coordinates relative to the shark where steps size 1 means maximum step size. The direction is normalized in the same way as the input.
+
+The network consist of the 6 input neurons explained above, 3 hidden layers with one neuron less than the previous layers and 2 output neurons also explained above. In addition to this, each layer (except for the output layer) has an extra neuron with input constant 1. This extra neurons acts as the threshold.
+
+The network was trained using an evolutionary genetically algorithm with real number encoding, crossover, mutation and elite inserts starting from a random population.
+
+In each generation of the training, each individual is given a fitness value based on an evaluation where the sharks is hunting fish as describe earlier.
+
+Since the shark is a predator and as such its success in hunting can be measured by the amount of energy spent on the hunt in regards to how much energy it could consume from the prey caught. We used the fitness calculated as follow for each individual:
+
+\begin{equation}
+  F = S+D\label{eq:fitness}
+\end{equation}
+where $S$ is the number of fish caught by the shark and $D$ is the average distance to the center of the closest fish shoal normalized between zero and unity. The distance is part of the fitness calculation to remove the discreteness. This helps to differentiate between individuals that caught the same amount of fish, especially in the beginning of the training where no fish are caught.
+
+The fitness value itself does not contain any information about how much energy it spent catching its prey, instead this is handled by the stop condition that the shark only has a certain amount of energy to spend before the evaluation is stopped. The evaluation can also be stopped if the shark loses contact with the fish. The energy is calculated as distanced moved. Therefore a shark that turn in a greater speed consumes more energy than a shark that turns in slower speed, due to that the faster moving shark needs a larger area to turn on.
+
+\subsection{Shark for comparison}
+The fitness value of the shark is great to compare different shark, but how do we tell if the shark with the best fitness value is good, decent or bad. We can look at the visual representation of the shark hunting and judge from its behavior, to conclude if it is good or bad. Another approached that is a bit less heuristic is to compare it with a hard coded algorithm instead of the ANN. The inputs and outputs to this algorithm we came up with is the same as to the ANN. The algorithm can be described:
+\begin{enumerate}
+\item If the distance to the closest fish is not zero (fish in attack area):\\
+    \hspace*{5pt}Eat that fish.
+\item Else if fish shoal in front of shark and within move angle: \\
+    \hspace*{5pt}Let output be the polar coordinates to the fish shoal in front.
+\item Else if fish shoal in front of shark and not within move angle: \\
+    \hspace*{5pt}Move with maximum angle toward the fish shoal with 20\% of max speed.
+\item Else if fish shoal in back:\\
+    \hspace*{5pt}Move with maximum angle to the side that is closes to the fish shoal with 20\% of max speed.
+\end{enumerate}
+
