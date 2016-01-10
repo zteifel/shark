@@ -43,11 +43,11 @@ function shark = EvalShark(varargin)
   end
 
   fitness = zeros(nrOfTrials,2);
-  % disp('Evaluating ANN shark...');
-  % for i=1:nrOfTrials
-  %   ANNtank = Aquarium(st.C.shark,st.C.tank,st.C.fish,weights,st.C.nn.beta,true);
-  %   fitness(i,1) = ANNtank.run();
-  % end
+  disp('Evaluating ANN shark...');
+  for i=1:nrOfTrials
+    ANNtank = Aquarium(st.C.shark,st.C.tank,st.C.fish,weights,st.C.nn.beta,true);
+    fitness(i,1) = ANNtank.run();
+  end
   disp('Evaluating AI shark for comparison...');
   for i=1:nrOfTrials
     AItank = Aquarium(st.C.shark,st.C.tank,st.C.fish,[],[],true);
